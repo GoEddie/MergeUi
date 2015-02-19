@@ -1,0 +1,8 @@
+**/obj/**
+**/bin/**
+**/release/**
+**/debug/**
+*.suo
+*dotsett*
+*.suo
+*.user
