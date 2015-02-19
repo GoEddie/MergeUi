@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using AgileSqlClub.MergeUi.UI;
+using EnvDTE;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
@@ -30,7 +33,7 @@ namespace AgileSqlClub.MergeUi
     // This attribute registers a tool window exposed by this package.
     [ProvideToolWindow(typeof(MyToolWindow))]
     [Guid(GuidList.guidMergeUiPkgString)]
-    public sealed class MergeUiPackage : Package
+    public sealed class MergeUiPackage : Package, IPackage
     {
         /// <summary>
         /// Default constructor of the package.
@@ -89,5 +92,92 @@ namespace AgileSqlClub.MergeUi
         }
         #endregion
 
+        public Project GetCurrentProject()
+        {
+            IntPtr hierarchyPointer, selectionContainerPointer;
+            Object selectedObject = null;
+            IVsMultiItemSelect multiItemSelect;
+            uint projectItemId;
+
+            var monitorSelection =
+                (IVsMonitorSelection)GetGlobalService(
+                    typeof(SVsShellMonitorSelection));
+
+            monitorSelection.GetCurrentSelection(out hierarchyPointer,
+                out projectItemId,
+                out multiItemSelect,
+                out selectionContainerPointer);
+
+            var selectedHierarchy = Marshal.GetTypedObjectForIUnknown(
+                hierarchyPointer,
+                typeof(IVsHierarchy)) as IVsHierarchy;
+
+            if (selectedHierarchy != null)
+            {
+                ErrorHandler.ThrowOnFailure(selectedHierarchy.GetProperty(
+                    projectItemId,
+                    (int)__VSHPROPID.VSHPROPID_ExtObject,
+                    out selectedObject));
+            }
+            
+            var selectedProject = ((selectedObject as dynamic).ProjectItems.ContainingProject) as Project;
+
+            return selectedProject;
+        }
+
+        public List<string> GetFilesWithBuildAction(string property)
+        {
+            var project = GetCurrentProject();
+            if (project == null)
+                return null;
+
+            var items = GetChildObjectsWithBuildAction(project.ProjectItems, "PostDeploy");
+
+            return items;
+        }
+
+        private List<string> GetChildObjectsWithBuildAction(ProjectItems items, string buildAction)
+        {
+            var foundItems = new List<string>();
+            foreach (ProjectItem item in items)
+            {
+                if (item.ProjectItems != null)
+                    foundItems.AddRange(GetChildObjectsWithBuildAction(item.ProjectItems, buildAction));
+
+
+                if (item.Properties != null)
+                {
+                    var fullPath = String.Empty;
+                    var isMatch = false;
+
+                    foreach (Property property in item.Properties)
+                    {
+                        if (property.Name == "BuildAction" && property.Value.ToString() == buildAction)
+                        {
+                            isMatch = true;
+                        }
+
+                        if (property.Name == "FullPath")
+                        {
+                            fullPath = property.Value.ToString();
+                        }
+                    }
+
+                    if (isMatch)
+                        foundItems.Add(fullPath);
+                }
+
+            }
+
+            return foundItems;
+        } 
     }
+
+    public interface IPackage
+    {
+        //Project GetCurrentProject();
+    }
+
+    
+
 }
