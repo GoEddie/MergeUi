@@ -6,5 +6,7 @@ namespace AgileSqlClub.MergeUi.Metadata
     {
         ITable GetTable(string name);
         List<string> GetTables();
+
+        void AddTable(ITable table);
     }
 }
