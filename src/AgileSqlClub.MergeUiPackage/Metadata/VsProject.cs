@@ -62,7 +62,6 @@ namespace AgileSqlClub.MergeUi.Metadata
                 return;
 
             var schema = project.GetSchema(schemaName);
-
             if (null == schema)
                 return;
 
@@ -74,29 +73,41 @@ namespace AgileSqlClub.MergeUi.Metadata
     internal class VsSchema : ISchema
     {
         private readonly string _schemaName;
-        private readonly IList<string> _tableNames;
-        private readonly IList<ITable> _tables; 
+        private readonly Dictionary<string, ITable> _tables = new Dictionary<string, ITable>();
 
         public VsSchema(string schemaName, IList<ITable> tables)
         {
             _schemaName = schemaName;
-            _tables = tables;
-            _tableNames = tables.Select(p=>p.SchemaName).ToList();
+
+            foreach (var table in tables)
+            {
+                if(table.Name != null)
+                    _tables[table.Name] = table;
+            }
+            
         }
 
         public ITable GetTable(string name)
         {
-            throw new NotImplementedException();
+            if (_tables.ContainsKey(name))
+                return _tables[name];
+
+            return null;
         }
 
         public List<string> GetTables()
         {
-            throw new NotImplementedException();
+            return _tables.Keys.ToList();
         }
 
         public void AddTable(ITable table)
         {
-            throw new NotImplementedException();
+            _tables[table.Name] = table;
+        }
+
+        public string GetName()
+        {
+            return _schemaName;
         }
     }
 }

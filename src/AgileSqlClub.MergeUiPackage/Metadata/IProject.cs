@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
+using Microsoft.Internal.VisualStudio.PlatformUI;
 
 namespace AgileSqlClub.MergeUi.Metadata
 {
@@ -8,7 +10,8 @@ namespace AgileSqlClub.MergeUi.Metadata
     {
         private readonly string _preDeployScript;
         private readonly string _postDeployScript;
-        private readonly List<ISchema> _schemas = new List<ISchema>();
+        private readonly HybridDictionary<string, ISchema> _schemas = new HybridDictionary<string, ISchema>();
+        
         private readonly string _name;
 
         public VsProject(string preDeployScript, string postDeployScript, List<ITable> tables, string name)
@@ -23,7 +26,8 @@ namespace AgileSqlClub.MergeUi.Metadata
         {
             foreach (string name in tables.Select(p => p.SchemaName).Distinct())
             {
-                _schemas.Add(new VsSchema(name, tables));
+                if(name != null)
+                    _schemas[name] = new VsSchema(name, tables.Where(p=>p.SchemaName==name).ToList());
             }
         }
 
@@ -44,12 +48,15 @@ namespace AgileSqlClub.MergeUi.Metadata
 
         public ISchema GetSchema(string name)
         {
-            throw new NotImplementedException();
+            if (_schemas.ContainsKey(name))
+                return _schemas[name];
+
+            return null;
         }
 
         public List<string> GetSchemas()
         {
-            throw new NotImplementedException();
+            return _schemas.Keys.ToList();
         }
     }
 }
