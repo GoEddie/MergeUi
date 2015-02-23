@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="DacServicesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SolutionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

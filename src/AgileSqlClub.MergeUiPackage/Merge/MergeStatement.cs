@@ -10,6 +10,7 @@ namespace AgileSqlClub.MergeUi.Merge
 {
     public class MergeStatementDescriptor : ITable
     {
+        public string SchemaName { get; set; }
         public string Name { get; set; }
         public List<ColumnDescriptor> Columns { get; set; }
         public List<string> KeyColumns { get; set; }
@@ -19,6 +20,8 @@ namespace AgileSqlClub.MergeUi.Merge
 
     public class MergeStatementFromScriptDescriptor : ITable
     {
+        public string SchemaName { get; set; }
+
         public string Name { get; set; }
         public List<ColumnDescriptor> Columns { get; set; }
         public List<string> KeyColumns { get; set; }

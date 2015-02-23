@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using AgileSqlClub.MergeUi.DacServices;
+using AgileSqlClub.MergeUi.Metadata;
 using AgileSqlClub.MergeUi.VSServices;
 
 namespace AgileSqlClub.MergeUi.UI
@@ -21,6 +23,8 @@ namespace AgileSqlClub.MergeUi.UI
             var enumerator = new ProjectEnumerator();
             enumerator.EnumerateProjects();
 
+            var solution = new Solution(new ProjectEnumerator(), new DacParserBuilder());
+            solution.GetProject("erm??");
             MessageBox.Show(string.Format(System.Globalization.CultureInfo.CurrentUICulture, "We are inside {0}.button1_Click()", this.ToString()),
                             "MergeUi");
 

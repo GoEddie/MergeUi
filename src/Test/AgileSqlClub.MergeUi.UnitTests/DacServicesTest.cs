@@ -29,10 +29,10 @@ namespace AgileSqlClub.MergeUi.UnitTests
                     new PackageMetadata() {Description = "Test Package", Name = "ssss", Version = "1"});
             }
 
-            var dac = new DacServices.DacServices(path);
-            Assert.AreEqual(1, dac.TableDefinitions.Count);
+            var dac = new DacServices.DacParser(path);
+            Assert.AreEqual(1, dac.GetTableDefinitions().Count);
 
-            var table = dac.TableDefinitions.FirstOrDefault();
+            var table = dac.GetTableDefinitions().FirstOrDefault();
 
             Assert.AreEqual("c1", table.Columns.FirstOrDefault().Name.Value);
             Assert.AreEqual(LiteralType.String, table.Columns.FirstOrDefault().LiteralType);
@@ -55,10 +55,10 @@ namespace AgileSqlClub.MergeUi.UnitTests
                     new PackageMetadata() { Description = "Test Package", Name = "ssss", Version = "1" });
             }
 
-            var dac = new DacServices.DacServices(path);
-            Assert.AreEqual(1, dac.TableDefinitions.Count);
+            var dac = new DacServices.DacParser(path);
+            Assert.AreEqual(1, dac.GetTableDefinitions().Count);
 
-            var table = dac.TableDefinitions.FirstOrDefault();
+            var table = dac.GetTableDefinitions().FirstOrDefault();
 
             Assert.AreEqual(1, table.KeyColumns.Count);
             Assert.AreEqual("id", table.KeyColumns.FirstOrDefault());
@@ -80,10 +80,10 @@ namespace AgileSqlClub.MergeUi.UnitTests
                     new PackageMetadata() { Description = "Test Package", Name = "ssss", Version = "1" });
             }
 
-            var dac = new DacServices.DacServices(path);
-            Assert.AreEqual(1, dac.TableDefinitions.Count);
+            var dac = new DacServices.DacParser(path);
+            Assert.AreEqual(1, dac.GetTableDefinitions().Count);
 
-            var table = dac.TableDefinitions.FirstOrDefault();
+            var table = dac.GetTableDefinitions().FirstOrDefault();
 
             Assert.AreEqual(0, table.KeyColumns.Count);
             

@@ -138,7 +138,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DacServices\DacServices.cs" />
+    <Compile Include="DacServices\DacParser.cs" />
     <Compile Include="Extensions\ObjectNameExtensions.cs" />
     <Compile Include="Merge\ColumnDescriptor.cs" />
     <Compile Include="Merge\MergeStatement.cs" />
@@ -164,6 +164,7 @@
     <Compile Include="AgileSqlClub.MergeUiPackagePackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PackagePlumbing\PkgCmdID.cs" />
+    <Compile Include="VSServices\ProjectDescriptor.cs" />
     <Compile Include="VSServices\ProjectEnumerator.cs" />
   </ItemGroup>
   <ItemGroup>

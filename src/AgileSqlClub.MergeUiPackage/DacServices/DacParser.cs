@@ -11,20 +11,42 @@ using Table = AgileSqlClub.MergeUi.Metadata.Table;
 
 namespace AgileSqlClub.MergeUi.DacServices
 {
-    public class DacServices
+    public class DacParserBuilder
+    {
+        public virtual DacParser Build(string path)
+        {
+            return new DacParser(path);
+        }
+    }
+
+    public class DacParser
     {
         private readonly string _dacPath;
-        public readonly List<ITable> TableDefinitions = new List<ITable>();
+        private readonly List<ITable> _tableDefinitions = new List<ITable>();
 
-        public DacServices(string dacPath)
+        /// <summary>
+        /// only for mocking, do not use
+        /// </summary>
+        public DacParser()
+        {
+            
+        }
+
+        public DacParser(string dacPath)
         {
             _dacPath = dacPath;
 
             Enumerate();
         }
 
-        public string PreDeployScript { get; private set; }
-        public string PostDeployScript { get; private set; }
+        public virtual string PreDeployScript { get; private set; }
+        public virtual string PostDeployScript { get; private set; }
+
+        public virtual List<ITable> GetTableDefinitions()
+        {
+            return _tableDefinitions;
+        } 
+        
 
         private void Enumerate()
         {
@@ -45,12 +67,13 @@ namespace AgileSqlClub.MergeUi.DacServices
             {
                 foreach (var table in model.GetObjects(DacQueryScopes.All, ModelSchema.Table))
                 {
-                    TableDefinitions.Add(
+                    _tableDefinitions.Add(
                         new Table
                         {
                             Columns = GetColumnDefinitions(table),
                             KeyColumns = GetKeyColumns(table),
-                            Name = table.Name.GetName()
+                            Name = table.Name.GetName(),
+                            SchemaName = table.Name.GetSchema()
                         }
                         );
                 }

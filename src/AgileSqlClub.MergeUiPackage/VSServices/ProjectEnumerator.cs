@@ -15,8 +15,10 @@ namespace AgileSqlClub.MergeUi.VSServices
         private const string SsdtProject = "{00d1a9c2-b5f0-4af3-8072-f6c62b433612}";
         private const string DacpacExtension = ".dacpac";
 
-        public List<VsProject> EnumerateProjects()
+        public virtual List<ProjectDescriptor> EnumerateProjects()
         {
+            var descriptors = new List<ProjectDescriptor>();
+
             var dte = MergeUiPackage.GetGlobalService(typeof (SDTE)) as DTE;
 
             var projects = dte.ActiveSolutionProjects as System.Array;
@@ -26,12 +28,12 @@ namespace AgileSqlClub.MergeUi.VSServices
                 if (project.Kind != SsdtProject)
                     continue;
 
-                //var vsProject = new VsProject()
-
                 var dacpac = FindDacpacPath(project);
+
+                descriptors.Add(new ProjectDescriptor(){Name = project.UniqueName, DacPath = dacpac});
             }
 
-            return null;
+            return descriptors;
         }
 
         private string FindDacpacPath(Project project)

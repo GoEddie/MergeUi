@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AgileSqlClub.MergeUi.Metadata
 {
@@ -7,15 +8,23 @@ namespace AgileSqlClub.MergeUi.Metadata
     {
         private readonly string _preDeployScript;
         private readonly string _postDeployScript;
-        private readonly List<ISchema> _schemas;
+        private readonly List<ISchema> _schemas = new List<ISchema>();
         private readonly string _name;
 
-        public VsProject(string preDeployScript, string postDeployScript, List<ISchema> schemas, string name)
+        public VsProject(string preDeployScript, string postDeployScript, List<ITable> tables, string name)
         {
             _preDeployScript = preDeployScript;
             _postDeployScript = postDeployScript;
-            _schemas = schemas;
+            AddSchemas(tables);   
             _name = name;
+        }
+
+        private void AddSchemas(List<ITable> tables)
+        {
+            foreach (string name in tables.Select(p => p.SchemaName).Distinct())
+            {
+                _schemas.Add(new VsSchema(name, tables));
+            }
         }
 
         public string GetName()
