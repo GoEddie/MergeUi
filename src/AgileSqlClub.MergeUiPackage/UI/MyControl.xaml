@@ -6,12 +6,28 @@
             
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
-             Name="MyToolWindow">
+             Name="MyToolWindow" MinWidth="750" MinHeight="430">
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <TextBlock Margin="10" HorizontalAlignment="Center">MergeUi</TextBlock>
-            <Button Content="_Click Me!" Click="button1_Click" Width="120" Height="80" Name="button1"/>
-        </StackPanel>
+        <WrapPanel Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Stretch">
+                <WrapPanel HorizontalAlignment="Stretch">
+                    <ComboBox x:Name="Projects" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" HorizontalContentAlignment="Stretch" MinWidth="400"  Height="25" Margin="10, 10, 10, 10" SelectionChanged="Projects_OnSelectionChanged"></ComboBox>
+                    <Button HorizontalAlignment="Right" Content="Refresh" Height="25" MinWidth="65" Margin="10, 10, 10, 10" Click="button1_Click"/>
+                </WrapPanel>
+                <WrapPanel HorizontalAlignment="Stretch">
+                    <ComboBox x:Name="Schemas" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="25" Margin="10, 10, 10, 10" MinWidth="400" SelectionChanged="Schemas_OnSelectionChanged" ></ComboBox>
+                </WrapPanel>
+                <WrapPanel HorizontalAlignment="Stretch">
+                    <ComboBox x:Name="Tables" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="25" Margin="10, 10, 10, 10" MinWidth="400" SelectionChanged="Tables_OnSelectionChanged" ></ComboBox>
+                </WrapPanel>
+
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Stretch" MinWidth="750">
+                <DataGrid x:Name="DataGrid" HorizontalAlignment="Stretch" Margin="10, 10, 10, 10" Height="250" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding}"> </DataGrid>
+            </StackPanel>
+        </WrapPanel>
+
+
     </Grid>
 </UserControl>
 <!--
