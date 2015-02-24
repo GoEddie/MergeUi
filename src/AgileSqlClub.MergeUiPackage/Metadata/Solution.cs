@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AgileSqlClub.MergeUi.DacServices;
+using AgileSqlClub.MergeUi.Merge;
 using AgileSqlClub.MergeUi.VSServices;
 
 namespace AgileSqlClub.MergeUi.Metadata
 {
-
     public class Solution : ISolution
     {
         private readonly List<string> _projectList = new List<string>();
@@ -21,7 +17,7 @@ namespace AgileSqlClub.MergeUi.Metadata
                 var dac = dacParserBuilder.Build(project.DacPath);
 
                 _projectList.Add(project.Name);
-                _projects.Add(project.Name, new VsProject(dac.PreDeployScript, dac.PostDeployScript, dac.GetTableDefinitions(), project.Name));
+                _projects.Add(project.Name, new VsProject(project.PreDeployScriptPath, project.PostDeployScriptPath, dac.GetTableDefinitions(), project.Name));
             }
         }
         
@@ -67,47 +63,6 @@ namespace AgileSqlClub.MergeUi.Metadata
 
             schema.AddTable(table);
             
-        }
-    }
-
-    internal class VsSchema : ISchema
-    {
-        private readonly string _schemaName;
-        private readonly Dictionary<string, ITable> _tables = new Dictionary<string, ITable>();
-
-        public VsSchema(string schemaName, IList<ITable> tables)
-        {
-            _schemaName = schemaName;
-
-            foreach (var table in tables)
-            {
-                if(table.Name != null)
-                    _tables[table.Name] = table;
-            }
-            
-        }
-
-        public ITable GetTable(string name)
-        {
-            if (_tables.ContainsKey(name))
-                return _tables[name];
-
-            return null;
-        }
-
-        public List<string> GetTables()
-        {
-            return _tables.Keys.ToList();
-        }
-
-        public void AddTable(ITable table)
-        {
-            _tables[table.Name] = table;
-        }
-
-        public string GetName()
-        {
-            return _schemaName;
         }
     }
 }

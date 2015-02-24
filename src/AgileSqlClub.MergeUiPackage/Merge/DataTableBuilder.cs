@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AgileSqlClub.MergeUi.Merge
 {
-    class DataTableBuilder
+    public class DataTableBuilder
     {
         private readonly DataTable _table;
 

@@ -125,52 +125,7 @@ namespace AgileSqlClub.MergeUi
             return selectedProject;
         }
 
-        public List<string> GetFilesWithBuildAction(string property)
-        {
-            var project = GetCurrentProject();
-            if (project == null)
-                return null;
-
-            var items = GetChildObjectsWithBuildAction(project.ProjectItems, "PostDeploy");
-
-            return items;
-        }
-
-        private List<string> GetChildObjectsWithBuildAction(ProjectItems items, string buildAction)
-        {
-            var foundItems = new List<string>();
-            foreach (ProjectItem item in items)
-            {
-                if (item.ProjectItems != null)
-                    foundItems.AddRange(GetChildObjectsWithBuildAction(item.ProjectItems, buildAction));
-
-
-                if (item.Properties != null)
-                {
-                    var fullPath = String.Empty;
-                    var isMatch = false;
-
-                    foreach (Property property in item.Properties)
-                    {
-                        if (property.Name == "BuildAction" && property.Value.ToString() == buildAction)
-                        {
-                            isMatch = true;
-                        }
-
-                        if (property.Name == "FullPath")
-                        {
-                            fullPath = property.Value.ToString();
-                        }
-                    }
-
-                    if (isMatch)
-                        foundItems.Add(fullPath);
-                }
-
-            }
-
-            return foundItems;
-        } 
+       
     }
 
     public interface IPackage

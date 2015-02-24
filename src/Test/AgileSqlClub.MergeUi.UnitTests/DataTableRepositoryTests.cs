@@ -17,13 +17,13 @@ namespace AgileSqlClub.MergeUi.UnitTests
         }
 
         [Test]
-        public void Returns_Existign_Table_When_In_Pre_Deploy_Script()
+        public void Returns_Existing_Table_When_In_Pre_Deploy_Script()
         {
             
         }
 
         [Test]
-        public void Returns_Existign_Table_When_In_Post_Deploy_Script()
+        public void Returns_Existing_Table_When_In_Post_Deploy_Script()
         {
 
         }
@@ -33,5 +33,10 @@ namespace AgileSqlClub.MergeUi.UnitTests
         {
 
         }
+
+
+        /*
+            Process is - read from dacpac, update script in project ?? a bit odd
+         */
     }
 }

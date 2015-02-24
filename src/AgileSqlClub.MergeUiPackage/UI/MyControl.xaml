@@ -13,6 +13,7 @@
                 <WrapPanel HorizontalAlignment="Stretch">
                     <ComboBox x:Name="Projects" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" HorizontalContentAlignment="Stretch" MinWidth="400"  Height="25" Margin="10, 10, 10, 10" SelectionChanged="Projects_OnSelectionChanged"></ComboBox>
                     <Button HorizontalAlignment="Right" Content="Refresh" Height="25" MinWidth="65" Margin="10, 10, 10, 10" Click="button1_Click"/>
+                    <Button HorizontalAlignment="Right" Content="Save" Height="25" MinWidth="65" Margin="10, 10, 10, 10" Click="button1_Save"/>
                 </WrapPanel>
                 <WrapPanel HorizontalAlignment="Stretch">
                     <ComboBox x:Name="Schemas" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="25" Margin="10, 10, 10, 10" MinWidth="400" SelectionChanged="Schemas_OnSelectionChanged" ></ComboBox>
@@ -23,7 +24,7 @@
 
             </StackPanel>
             <StackPanel HorizontalAlignment="Stretch" MinWidth="750">
-                <DataGrid x:Name="DataGrid" HorizontalAlignment="Stretch" Margin="10, 10, 10, 10" Height="250" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding}"> </DataGrid>
+                <DataGrid x:Name="DataGrid" HorizontalAlignment="Stretch" Margin="10, 10, 10, 10" Height="250" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding}" RowEditEnding="DataGrid_OnRowEditEnding"> </DataGrid>
             </StackPanel>
         </WrapPanel>
 

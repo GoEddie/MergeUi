@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using AgileSqlClub.MergeUi.DacServices;
+using AgileSqlClub.MergeUi.Merge;
 using Microsoft.Internal.VisualStudio.PlatformUI;
 
 namespace AgileSqlClub.MergeUi.Metadata
@@ -11,15 +13,20 @@ namespace AgileSqlClub.MergeUi.Metadata
         private readonly string _preDeployScript;
         private readonly string _postDeployScript;
         private readonly HybridDictionary<string, ISchema> _schemas = new HybridDictionary<string, ISchema>();
-        
+        private readonly OnDiskMergeRepository _mergeRepository;
         private readonly string _name;
 
         public VsProject(string preDeployScript, string postDeployScript, List<ITable> tables, string name)
         {
             _preDeployScript = preDeployScript;
             _postDeployScript = postDeployScript;
+            _mergeRepository = new OnDiskMergeRepository(new DacParserBuilder(), this);
+
             AddSchemas(tables);   
+            
+            _mergeRepository.OverwriteTablesWithOnDiskData();
             _name = name;
+            
         }
 
         private void AddSchemas(List<ITable> tables)
@@ -38,12 +45,10 @@ namespace AgileSqlClub.MergeUi.Metadata
 
         public string GetScript(ScriptType type)
         {
-            throw new NotImplementedException();
-        }
+            if (type == ScriptType.PreDeploy)
+                return _preDeployScript;
 
-        public void SetScript(ScriptType type, string script)
-        {
-            throw new NotImplementedException();
+            return _postDeployScript;;
         }
 
         public ISchema GetSchema(string name)
@@ -57,6 +62,25 @@ namespace AgileSqlClub.MergeUi.Metadata
         public List<string> GetSchemas()
         {
             return _schemas.Keys.ToList();
+        }
+
+        public ITable GetTable(string schemaName, string name)
+        {
+            var schema = GetSchema(schemaName);
+            if (null == schema)
+                return null;
+
+            return schema.GetTable(name);
+
+        }
+
+        public void AddTable(string schemaName, ITable table)
+        {
+            var schema = GetSchema(schemaName);
+            if (null == schema)
+                return;
+
+            schema.AddTable(table);
         }
     }
 }

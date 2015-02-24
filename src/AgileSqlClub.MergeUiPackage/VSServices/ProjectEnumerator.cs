@@ -29,12 +29,24 @@ namespace AgileSqlClub.MergeUi.VSServices
                     continue;
 
                 var dacpac = FindDacpacPath(project);
-
-                descriptors.Add(new ProjectDescriptor(){Name = project.UniqueName, DacPath = dacpac});
+                var preDeployScript = FindPreDeployScriptPath(project);
+                var postDeployScript = FindPostDeployScriptPath(project);
+                descriptors.Add(new ProjectDescriptor(){Name = project.UniqueName, DacPath = dacpac, PreDeployScriptPath = preDeployScript, PostDeployScriptPath = postDeployScript});
             }
 
             return descriptors;
         }
+
+        private string FindPreDeployScriptPath(Project project)
+        {
+            return GetFilesWithBuildAction("PreDeploy", project).FirstOrDefault();
+        }
+
+        private string FindPostDeployScriptPath(Project project)
+        {
+            return GetFilesWithBuildAction("PostDeploy", project).FirstOrDefault();
+        }
+
 
         private string FindDacpacPath(Project project)
         {
@@ -63,5 +75,52 @@ namespace AgileSqlClub.MergeUi.VSServices
 
             return null;
         }
+
+        public List<string> GetFilesWithBuildAction(string property, Project project)
+        {
+            
+            if (project == null)
+                return null;
+
+            var items = GetChildObjectsWithBuildAction(project.ProjectItems, "PostDeploy");
+
+            return items;
+        }
+
+        private List<string> GetChildObjectsWithBuildAction(ProjectItems items, string buildAction)
+        {
+            var foundItems = new List<string>();
+            foreach (ProjectItem item in items)
+            {
+                if (item.ProjectItems != null)
+                    foundItems.AddRange(GetChildObjectsWithBuildAction(item.ProjectItems, buildAction));
+
+
+                if (item.Properties != null)
+                {
+                    var fullPath = String.Empty;
+                    var isMatch = false;
+
+                    foreach (Property property in item.Properties)
+                    {
+                        if (property.Name == "BuildAction" && property.Value.ToString() == buildAction)
+                        {
+                            isMatch = true;
+                        }
+
+                        if (property.Name == "FullPath")
+                        {
+                            fullPath = property.Value.ToString();
+                        }
+                    }
+
+                    if (isMatch)
+                        foundItems.Add(fullPath);
+                }
+
+            }
+
+            return foundItems;
+        } 
     }
 }
