@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using AgileSqlClub.MergeUi.DacServices;
+using AgileSqlClub.MergeUi.Merge;
 using AgileSqlClub.MergeUi.Metadata;
 using AgileSqlClub.MergeUi.VSServices;
 using UserControl = System.Windows.Controls.UserControl;
@@ -96,7 +97,14 @@ namespace AgileSqlClub.MergeUi.UI
 
             _currentTable = _currentSchema.GetTable(tableName);
 
-            DataGrid.DataContext = _currentTable.Data.DefaultView;
+            if (_currentTable.Data == null)
+            {
+                _currentTable.Data = new DataTableBuilder(tableName, _currentTable.Columns).Get();
+            }
+
+            DataGrid.DataContext = _currentTable.Data.DefaultView;  //TODO -= check for null and start adding a datatable when building the table (maybe need a lazy loading)
+                                                                    //we also need a repository of merge statements which is the on disk representation so we can grab those
+                                                                    //if they exist or just create a new one - then save them back and 
         }
     }
 }

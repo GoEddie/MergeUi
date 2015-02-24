@@ -141,6 +141,7 @@
     <Compile Include="DacServices\DacParser.cs" />
     <Compile Include="Extensions\ObjectNameExtensions.cs" />
     <Compile Include="Merge\ColumnDescriptor.cs" />
+    <Compile Include="Merge\DataTableBuilder.cs" />
     <Compile Include="Merge\MergeStatement.cs" />
     <Compile Include="Merge\MergeStatementFromScriptBuilder.cs" />
     <Compile Include="Metadata\IProject.cs" />
