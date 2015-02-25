@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using AgileSqlClub.MergeUi.DacServices;
 using AgileSqlClub.MergeUi.Merge;
+using AgileSqlClub.MergeUi.UI;
 using AgileSqlClub.MergeUi.VSServices;
 
 namespace AgileSqlClub.MergeUi.Metadata
@@ -10,15 +13,28 @@ namespace AgileSqlClub.MergeUi.Metadata
         private readonly List<string> _projectList = new List<string>();
         private readonly Dictionary<string, VsProject> _projects = new Dictionary<string, VsProject>();
 
-        public Solution(ProjectEnumerator projectEnumerator, DacParserBuilder dacParserBuilder)
+        public Solution(ProjectEnumerator projectEnumerator, DacParserBuilder dacParserBuilder, IStatus statusDisplay)
         {
-            foreach (var project in projectEnumerator.EnumerateProjects())
-            {
-                var dac = dacParserBuilder.Build(project.DacPath);
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
 
+
+            statusDisplay.SetStatus("Finding Sql Projects...");
+            var projects = projectEnumerator.EnumerateProjects();
+            
+            int count = 1;
+            foreach (var project in projects)
+            {
+                statusDisplay.SetStatus(string.Format("Enumerating project {0} or {1}", count++, projects.Count));
+
+                var dac = dacParserBuilder.Build(project.DacPath);
+                
                 _projectList.Add(project.Name);
-                _projects.Add(project.Name, new VsProject(project.PreDeployScriptPath, project.PostDeployScriptPath, dac.GetTableDefinitions(), project.Name));
+                _projects.Add(project.Name, new VsProject(project.PreDeployScriptPath, project.PostDeployScriptPath, dac.GetTableDefinitions(), project.Name, File.GetLastWriteTime(project.DacPath)));
             }
+
+            stopwatch.Stop();
+            statusDisplay.SetStatus(string.Format("Complete...Process took {0} seconds", stopwatch.ElapsedMilliseconds / 1000));
         }
         
         public VsProject GetProject(string name)

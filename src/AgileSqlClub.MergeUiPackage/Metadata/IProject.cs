@@ -15,8 +15,9 @@ namespace AgileSqlClub.MergeUi.Metadata
         private readonly HybridDictionary<string, ISchema> _schemas = new HybridDictionary<string, ISchema>();
         private readonly OnDiskMergeRepository _mergeRepository;
         private readonly string _name;
+        private readonly DateTime _lastBuildTime;
 
-        public VsProject(string preDeployScript, string postDeployScript, List<ITable> tables, string name)
+        public VsProject(string preDeployScript, string postDeployScript, List<ITable> tables, string name, DateTime lastBuildTime)
         {
             _preDeployScript = preDeployScript;
             _postDeployScript = postDeployScript;
@@ -26,7 +27,7 @@ namespace AgileSqlClub.MergeUi.Metadata
             
             _mergeRepository.OverwriteTablesWithOnDiskData();
             _name = name;
-            
+            _lastBuildTime = lastBuildTime;
         }
 
         private void AddSchemas(List<ITable> tables)
@@ -91,6 +92,11 @@ namespace AgileSqlClub.MergeUi.Metadata
             {
                 schema.Save(_postDeployScript);
             }
+        }
+
+        public DateTime GetLastBuildTime()
+        {
+            return _lastBuildTime;
         }
     }
 }

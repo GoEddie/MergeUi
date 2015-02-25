@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Web.UI.Design;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,13 +9,15 @@ using AgileSqlClub.MergeUi.DacServices;
 using AgileSqlClub.MergeUi.Merge;
 using AgileSqlClub.MergeUi.Metadata;
 using AgileSqlClub.MergeUi.VSServices;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using MessageBox = System.Windows.Forms.MessageBox;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace AgileSqlClub.MergeUi.UI
 {
 
-    public partial class MyControl : UserControl
+    public partial class MyControl : UserControl, IStatus
     {
         private ISolution _solution;
         private VsProject _currentProject;
@@ -30,33 +33,50 @@ namespace AgileSqlClub.MergeUi.UI
 
         void Refresh()
         {
-            
-            this.Dispatcher.InvokeAsync(() =>
+            ThreadPool.QueueUserWorkItem(DoRefresh);
+        }
+
+        private  void DoRefresh(object state)
+        {
+            if (_currentDataGridDirty)
             {
-
-                if (_currentDataGridDirty)
+                if (!CheckSaveChanges())
                 {
-                    if (!CheckSaveChanges())
-                    {
-                        return;
-                    }
+                    return;
                 }
+            }
 
-
+            System.Windows.Input.Cursor cursor = System.Windows.Input.Cursors.Arrow;
+            
+            this.Dispatcher.Invoke(() =>
+            {
+                cursor = Cursor;
+                RefreshButton.IsEnabled = false;
                 Projects.ItemsSource = null;
                 Schemas.ItemsSource = null;
                 Tables.ItemsSource = null;
                 DataGrid.DataContext = null;
 
-                
-                var cursor = Cursor;
                 Cursor = System.Windows.Input.Cursors.Wait;
-                _solution = new Solution(new ProjectEnumerator(), new DacParserBuilder());
-                Projects.ItemsSource = _solution.GetProjects();
-                
-                Cursor = cursor;
             });
+    
+            _solution = new Solution(new ProjectEnumerator(), new DacParserBuilder(), this);
+            
+            this.Dispatcher.Invoke(() =>
+            {
+                Projects.ItemsSource = _solution.GetProjects();
+                Cursor = cursor;
+                RefreshButton.IsEnabled = true;
+            });
+    
+        }
 
+        public void SetStatus(string message)
+        {
+            this.Dispatcher.InvokeAsync(() =>
+            {
+                LastStatusMessage.Text = message;
+            });
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
@@ -80,6 +100,7 @@ namespace AgileSqlClub.MergeUi.UI
             Tables.ItemsSource = null;
 
             _currentProject = _solution.GetProject(projectName);
+            LastBuildTime.Text = string.Format("Last Dacpac Build Time: {0}", _currentProject.GetLastBuildTime());
             Schemas.ItemsSource = _currentProject.GetSchemas();
         }
 
@@ -146,5 +167,10 @@ namespace AgileSqlClub.MergeUi.UI
             
             _solution.Save();
         }
+    }
+
+    public interface IStatus
+    {
+        void SetStatus(string message);
     }
 }
