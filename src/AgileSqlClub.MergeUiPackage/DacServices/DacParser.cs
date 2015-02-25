@@ -101,10 +101,11 @@ namespace AgileSqlClub.MergeUi.DacServices
         {
             var columns = new List<ColumnDescriptor>();
 
-            foreach (var column in table.GetReferencedRelationshipInstances(Microsoft.SqlServer.Dac.Model.Table.Columns)
-                )
+            foreach (var column in table.GetReferencedRelationshipInstances(Microsoft.SqlServer.Dac.Model.Table.Columns))
             {
-                columns.Add(CreateColumnDefinition(column));
+                var definition = CreateColumnDefinition(column);
+                if(definition != null)
+                    columns.Add(definition);
             }
 
             return columns;
@@ -115,6 +116,8 @@ namespace AgileSqlClub.MergeUi.DacServices
             var definition = new ColumnDescriptor();
             definition.Name = new Identifier {Value = column.ObjectName.GetName()};
             var type = column.Object.GetReferenced(Column.DataType).FirstOrDefault();
+            if (type == null)
+                return null;//COMPUTED COLUMN
 
             definition.LiteralType = LiteralConverter.GetLiteralType(type.Name);
             return definition;

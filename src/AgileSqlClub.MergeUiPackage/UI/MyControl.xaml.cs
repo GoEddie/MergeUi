@@ -30,22 +30,25 @@ namespace AgileSqlClub.MergeUi.UI
 
         void Refresh()
         {
-            if (_currentDataGridDirty)
-            {
-                if (!CheckSaveChanges())
-                {
-                    return;
-                }
-            }
-
-
-            Projects.ItemsSource = null;
-            Schemas.ItemsSource = null;
-            Tables.ItemsSource = null;
-            DataGrid.DataContext = null;
-
+            
             this.Dispatcher.InvokeAsync(() =>
             {
+
+                if (_currentDataGridDirty)
+                {
+                    if (!CheckSaveChanges())
+                    {
+                        return;
+                    }
+                }
+
+
+                Projects.ItemsSource = null;
+                Schemas.ItemsSource = null;
+                Tables.ItemsSource = null;
+                DataGrid.DataContext = null;
+
+                
                 var cursor = Cursor;
                 Cursor = System.Windows.Input.Cursors.Wait;
                 _solution = new Solution(new ProjectEnumerator(), new DacParserBuilder());
@@ -125,10 +128,6 @@ namespace AgileSqlClub.MergeUi.UI
 
         private bool CheckSaveChanges()
         {
-            MessageBox.Show("Existing: " +
-                            new StreamReader(_currentTable.Merge.File).ReadToEnd()
-                                .Substring(_currentTable.Merge.ScriptOffset, _currentTable.Merge.ScriptLength));
-
             return true;
         }
 

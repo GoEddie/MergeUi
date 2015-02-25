@@ -140,13 +140,16 @@
   <ItemGroup>
     <Compile Include="DacServices\DacParser.cs" />
     <Compile Include="Extensions\DataTableExtensions.cs" />
+    <Compile Include="Extensions\IdentifierExtensionMethods.cs" />
     <Compile Include="Extensions\ObjectNameExtensions.cs" />
     <Compile Include="Extensions\SchemaObjectNameExtensions.cs" />
     <Compile Include="Merge\ColumnDescriptor.cs" />
     <Compile Include="Merge\DataTableBuilder.cs" />
+    <Compile Include="Merge\MergeStatementBuilder.cs" />
     <Compile Include="Merge\OnDiskMergeRepository.cs" />
     <Compile Include="Merge\MergeStatementParser.cs" />
     <Compile Include="Merge\ScriptDom\MergeVisitor.cs" />
+    <Compile Include="Merge\ScriptingExtensions.cs" />
     <Compile Include="Merge\ScriptParser.cs" />
     <Compile Include="Metadata\IProject.cs" />
     <Compile Include="Metadata\ISchema.cs" />

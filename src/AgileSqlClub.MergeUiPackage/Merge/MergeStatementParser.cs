@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using AgileSqlClub.MergeUi.Extensions;
 using AgileSqlClub.MergeUi.Metadata;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
@@ -18,6 +19,8 @@ namespace AgileSqlClub.MergeUi.Merge
 
         public ITable GetDescriptor(string filePath)
         {
+            var fileContent = File.ReadAllText(filePath);
+
             var table = new Table
             {
                 Name = (_merge.MergeSpecification.Target as NamedTableReference).SchemaObject.BaseIdentifier.Value,
@@ -27,6 +30,7 @@ namespace AgileSqlClub.MergeUi.Merge
                     MergeStatement = _merge,
                     ScriptOffset = _merge.StartOffset,
                     ScriptLength = _merge.FragmentLength,
+                    OriginalScript =  fileContent.Substring(_merge.StartOffset, _merge.FragmentLength),
                     File = filePath
                 }
             };

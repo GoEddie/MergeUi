@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using AgileSqlClub.MergeUi.Extensions;
 using AgileSqlClub.MergeUi.Merge;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
@@ -24,6 +25,7 @@ namespace AgileSqlClub.MergeUi.Metadata
     {
         public MergeStatement MergeStatement { get; set; }
         public string File { get; set; }
+        public string OriginalScript { get; set; }
         public int ScriptOffset { get; set; }
         public int ScriptLength { get; set; }
     }
@@ -59,11 +61,47 @@ namespace AgileSqlClub.MergeUi.Metadata
 
         public void Save(string scriptFile)
         {
-            if (Data.IsDirty())
+            if (Data != null && Data.IsDirty())
             {
                 //if detils of Merge.Blah are filled in then update the current Merge.MergeStatement with the new datatable and then get the script and overwrite the existing script..
                 //if it is not filled in, we need to create a new one and build a new merge 
-                Console.WriteLine();       
+
+                if (Merge.MergeStatement == null)
+                {
+                    Merge.MergeStatement = new MergeStatementBuilder(Columns, SchemaName, Name, KeyColumns).Build();
+                    Merge.File = scriptFile;
+                }
+
+                Merge.MergeStatement.SetInlineTableData(Data, Columns);
+                var script = Merge.MergeStatement.GetScript();
+                
+                string originalScript = null;
+                using (var sr = new StreamReader(Merge.File))
+                {
+                    originalScript = sr.ReadToEnd();
+                }
+
+                string outputScript = null;
+
+                if (!string.IsNullOrEmpty(Merge.OriginalScript))
+                {
+                    outputScript = originalScript.Replace(Merge.OriginalScript, "");
+                }
+                else
+                {
+                    outputScript = originalScript;
+                }
+
+                Merge.OriginalScript = script;
+
+                outputScript = outputScript + "\r\nGO\r\n" + script;
+                outputScript = outputScript.Replace("\r\nGO\r\n\r\nGO\r\n", "\r\nGO\r\n");
+
+                using (var sw = new StreamWriter(Merge.File,false))
+                {
+                    sw.Write(outputScript);
+                }
+                
             }
         }
     }

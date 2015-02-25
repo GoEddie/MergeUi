@@ -18,6 +18,18 @@ namespace AgileSqlClub.MergeUi.Extensions
                 dataTable.ExtendedProperties[DataTablePropertyNames.DataChanged] = true;
             };
 
+            source.TableNewRow += (sender, args) =>
+            {
+                var dataTable = sender as DataTable;
+                dataTable.ExtendedProperties[DataTablePropertyNames.DataChanged] = true;
+            };
+
+            source.RowDeleted += (sender, args) =>
+            {
+                var dataTable = sender as DataTable;
+                dataTable.ExtendedProperties[DataTablePropertyNames.DataChanged] = true;
+            };
+
         }
 
         public static bool IsDirty(this DataTable source)
