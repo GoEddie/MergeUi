@@ -120,6 +120,7 @@ namespace AgileSqlClub.MergeUi.UI
                                                                     //we also need a repository of merge statements which is the on disk representation so we can grab those
                                                                     //if they exist or just create a new one - then save them back and 
 
+            
         }
 
         private bool CheckSaveChanges()
@@ -143,7 +144,8 @@ namespace AgileSqlClub.MergeUi.UI
             //need to finish off saving back to the files (need a radio button with pre/post deploy (not changeable when read from file) - futrue feature
             //need a check to write files on window closing
             //need lots of tests
-            throw new NotImplementedException();
+            
+            _solution.Save();
         }
     }
 }

@@ -80,7 +80,17 @@ namespace AgileSqlClub.MergeUi.Metadata
             if (null == schema)
                 return;
 
+            
+
             schema.AddTable(table);
+        }
+
+        public void Save()
+        {
+            foreach (var schema in _schemas.Values)
+            {
+                schema.Save(_postDeployScript);
+            }
         }
     }
 }

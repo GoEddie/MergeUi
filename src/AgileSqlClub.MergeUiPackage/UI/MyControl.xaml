@@ -5,15 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300"
-             Name="MyToolWindow" MinWidth="750" MinHeight="430">
+             d:DesignHeight="3090" d:DesignWidth="3000" MinHeight="350" MinWidth="350"
+             Name="MyToolWindow" >
+    
     <Grid>
         <WrapPanel Orientation="Horizontal">
             <StackPanel HorizontalAlignment="Stretch">
                 <WrapPanel HorizontalAlignment="Stretch">
                     <ComboBox x:Name="Projects" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" HorizontalContentAlignment="Stretch" MinWidth="400"  Height="25" Margin="10, 10, 10, 10" SelectionChanged="Projects_OnSelectionChanged"></ComboBox>
                     <Button HorizontalAlignment="Right" Content="Refresh" Height="25" MinWidth="65" Margin="10, 10, 10, 10" Click="button1_Click"/>
-                    <Button HorizontalAlignment="Right" Content="Save" Height="25" MinWidth="65" Margin="10, 10, 10, 10" Click="button1_Save"/>
+                    
                 </WrapPanel>
                 <WrapPanel HorizontalAlignment="Stretch">
                     <ComboBox x:Name="Schemas" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="25" Margin="10, 10, 10, 10" MinWidth="400" SelectionChanged="Schemas_OnSelectionChanged" ></ComboBox>
@@ -24,12 +25,17 @@
 
             </StackPanel>
             <StackPanel HorizontalAlignment="Stretch" MinWidth="750">
-                <DataGrid x:Name="DataGrid" HorizontalAlignment="Stretch" Margin="10, 10, 10, 10" Height="250" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding}" RowEditEnding="DataGrid_OnRowEditEnding"> </DataGrid>
+                <DataGrid x:Name="DataGrid" HorizontalAlignment="Stretch" Margin="10, 10, 20, 10" Height="240" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding}" RowEditEnding="DataGrid_OnRowEditEnding"> </DataGrid>
+                <WrapPanel HorizontalAlignment="Stretch">
+
+                    <Button HorizontalAlignment="Right" Content="Save" Height="25" MinWidth="65" Margin="10, 10, 10, 10" Click="button1_Save"/>
+                    
+                </WrapPanel>
             </StackPanel>
         </WrapPanel>
-
-
+        
     </Grid>
+    
 </UserControl>
 <!--
      Background="{DynamicResource VsBrush.Window}"

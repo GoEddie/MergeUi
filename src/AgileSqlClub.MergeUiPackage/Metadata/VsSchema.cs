@@ -45,5 +45,14 @@ namespace AgileSqlClub.MergeUi.Metadata
         {
             return _schemaName;
         }
+
+
+        public void Save(string scriptFile)
+        {
+            foreach (var table in _tables.Values)
+            {
+                table.Save(scriptFile);
+            }
+        }
     }
 }

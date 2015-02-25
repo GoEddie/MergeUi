@@ -52,7 +52,6 @@ namespace AgileSqlClub.MergeUi.Merge
             {
                 scriptGateway.UpdateData();
             }
-            
         }
 
     }

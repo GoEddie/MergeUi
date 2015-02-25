@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgileSqlClub.MergeUi.Extensions;
 
 namespace AgileSqlClub.MergeUi.Merge
 {
@@ -19,6 +20,9 @@ namespace AgileSqlClub.MergeUi.Merge
             {
                 _table.Columns.Add(new DataColumn(col.Name.Value));
             }
+
+            _table.ExtendedProperties.Add(DataTablePropertyNames.DataChanged, false);
+            _table.EnableDirtyWatcher();
         }
 
         public DataTable Get()

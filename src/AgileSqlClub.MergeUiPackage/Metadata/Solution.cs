@@ -64,5 +64,13 @@ namespace AgileSqlClub.MergeUi.Metadata
             schema.AddTable(table);
             
         }
+
+        public void Save()
+        {
+            foreach (var project in _projects.Values)
+            {
+                project.Save();
+            }
+        }
     }
 }

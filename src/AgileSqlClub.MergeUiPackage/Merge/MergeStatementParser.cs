@@ -79,7 +79,18 @@ namespace AgileSqlClub.MergeUi.Merge
                 needColumnDescriptors = false;  //only need first row
             }
 
+            table.Data.ExtendedProperties.Add(DataTablePropertyNames.DataChanged, false);
+            table.Data.EnableDirtyWatcher();
+    
             return table;
         }
+
+    }
+
+
+
+    public static class DataTablePropertyNames
+    {
+        public const string DataChanged = "DataChanged";
     }
 }

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using AgileSqlClub.MergeUi.Extensions;
 using AgileSqlClub.MergeUi.Merge;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
@@ -14,7 +16,8 @@ namespace AgileSqlClub.MergeUi.Metadata
 
         DataTable Data { get; set; }
         Merge Merge { get; set; }
-        
+
+        void Save(string scriptFile);
     }
 
     public class Merge
@@ -53,6 +56,16 @@ namespace AgileSqlClub.MergeUi.Metadata
         public DataTable Data { get; set; }
 
         public Merge Merge { get; set; }
+
+        public void Save(string scriptFile)
+        {
+            if (Data.IsDirty())
+            {
+                //if detils of Merge.Blah are filled in then update the current Merge.MergeStatement with the new datatable and then get the script and overwrite the existing script..
+                //if it is not filled in, we need to create a new one and build a new merge 
+                Console.WriteLine();       
+            }
+        }
     }
 
 }

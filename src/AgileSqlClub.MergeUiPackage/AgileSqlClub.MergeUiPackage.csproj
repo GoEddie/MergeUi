@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DacServices\DacParser.cs" />
+    <Compile Include="Extensions\DataTableExtensions.cs" />
     <Compile Include="Extensions\ObjectNameExtensions.cs" />
     <Compile Include="Extensions\SchemaObjectNameExtensions.cs" />
     <Compile Include="Merge\ColumnDescriptor.cs" />

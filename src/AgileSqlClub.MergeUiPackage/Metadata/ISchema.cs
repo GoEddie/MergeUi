@@ -10,5 +10,9 @@ namespace AgileSqlClub.MergeUi.Metadata
         void AddTable(ITable table);
 
         string GetName();
+
+        void Save(string scriptFile);
+
+        
     }
 }
