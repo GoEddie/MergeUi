@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:vsui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.12.0"
-
+    
              mc:Ignorable="d"
              d:DesignHeight="3090" d:DesignWidth="3000" MinHeight="350" MinWidth="350"
              Name="MyToolWindow" >
@@ -22,6 +21,7 @@
                 </WrapPanel>
                 <WrapPanel HorizontalAlignment="Stretch">
                     <ComboBox x:Name="Tables" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="25" Margin="10, 10, 10, 10" MinWidth="400" SelectionChanged="Tables_OnSelectionChanged" ></ComboBox>
+                    <Button HorizontalAlignment="Right" Content="Import" Height="25" MinWidth="65" Margin="10, 10, 10, 10" Click="ImportTable" x:Name="ImportButton"/>
                 </WrapPanel>
                 <TextBlock x:Name="LastBuildTime" Foreground="ForestGreen" HorizontalAlignment="Stretch" Height="25" Margin="10, 10, 10, 10" MinWidth="400" Text="Last Modified Time"></TextBlock>
                 <TextBlock x:Name="LastStatusMessage" Foreground="ForestGreen" HorizontalAlignment="Stretch" Height="50" Margin="10, 10, 10, 10" MinWidth="400" Text="Status:"></TextBlock>

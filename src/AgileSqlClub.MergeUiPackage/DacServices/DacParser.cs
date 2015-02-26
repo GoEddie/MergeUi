@@ -11,14 +11,6 @@ using Table = AgileSqlClub.MergeUi.Metadata.Table;
 
 namespace AgileSqlClub.MergeUi.DacServices
 {
-    public class DacParserBuilder
-    {
-        public virtual DacParser Build(string path)
-        {
-            return new DacParser(path);
-        }
-    }
-
     public class DacParser
     {
         private readonly string _dacPath;
@@ -74,7 +66,7 @@ namespace AgileSqlClub.MergeUi.DacServices
                             KeyColumns = GetKeyColumns(table),
                             Name = table.Name.GetName(),
                             SchemaName = table.Name.GetSchema()
-                        }
+                            }
                         );
                 }
             }

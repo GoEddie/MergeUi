@@ -46,7 +46,7 @@ namespace AgileSqlClub.MergeUi.UI
                 }
             }
 
-            System.Windows.Input.Cursor cursor = System.Windows.Input.Cursors.Arrow;
+            System.Windows.Input.Cursor cursor = System.Windows.Input.Cursors.Arrow; 
             
             this.Dispatcher.Invoke(() =>
             {
@@ -166,6 +166,11 @@ namespace AgileSqlClub.MergeUi.UI
             //need lots of tests
             
             _solution.Save();
+        }
+
+        private void ImportTable(object sender, RoutedEventArgs e)
+        {
+            new Importer().GetData();
         }
     }
 

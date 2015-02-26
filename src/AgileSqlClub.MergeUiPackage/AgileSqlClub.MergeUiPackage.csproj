@@ -39,6 +39,9 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\packages\MahApps.Metro.1.1.1.0\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Tools.Schema.Sql">
       <HintPath>C:\Program Files (x86)\Microsoft SQL Server\120\DAC\bin\Microsoft.Data.Tools.Schema.Sql.dll</HintPath>
@@ -69,17 +72,26 @@
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.11.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.12.0" />
+    <Reference Include="Syncfusion.Core, Version=12.4450.0.24, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Shared.Wpf, Version=12.4450.0.24, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Tools.WPF, Version=12.4450.0.24, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.1.1.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
     <Reference Include="System.Xaml" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="EnvDTE">
@@ -139,10 +151,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DacServices\DacParser.cs" />
+    <Compile Include="DacServices\DacParserBuilder.cs" />
     <Compile Include="Extensions\DataTableExtensions.cs" />
     <Compile Include="Extensions\IdentifierExtensionMethods.cs" />
     <Compile Include="Extensions\ObjectNameExtensions.cs" />
     <Compile Include="Extensions\SchemaObjectNameExtensions.cs" />
+    <Compile Include="Import\ImportConfirm.xaml.cs">
+      <DependentUpon>ImportConfirm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Import\ImportConnect.xaml.cs">
+      <DependentUpon>ImportConnect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Import\ImportData.xaml.cs">
+      <DependentUpon>ImportData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Import\Importer.cs" />
+    <Compile Include="Import\ImportShowData.xaml.cs">
+      <DependentUpon>ImportShowData.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Merge\ColumnDescriptor.cs" />
     <Compile Include="Merge\DataTableBuilder.cs" />
     <Compile Include="Merge\MergeStatementBuilder.cs" />
@@ -202,12 +228,29 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\Images.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Import\ImportConfirm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Import\ImportConnect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Import\ImportData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Import\ImportShowData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\MyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
