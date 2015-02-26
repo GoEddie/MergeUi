@@ -170,7 +170,14 @@ namespace AgileSqlClub.MergeUi.UI
 
         private void ImportTable(object sender, RoutedEventArgs e)
         {
-            new Importer().GetData();
+            if (_currentTable == null)
+            {
+                MessageBox.Show("Please choose a table in the drop down list");
+                return;
+            }
+
+            new Importer().GetData(_currentTable);
+            DataGrid.DataContext = _currentTable.Data.DefaultView;
         }
     }
 

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using AgileSqlClub.MergeUi.Metadata;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -19,19 +20,34 @@ namespace AgileSqlClub.MergeUi.VSServices
         {
             var descriptors = new List<ProjectDescriptor>();
 
-            var dte = MergeUiPackage.GetGlobalService(typeof (SDTE)) as DTE;
-
-            var projects = dte.ActiveSolutionProjects as System.Array;
-            for (int i = 0; i < projects.Length; i++)
+            try
             {
-                var project = projects.GetValue(i) as EnvDTE.Project;
-                if (project.Kind != SsdtProject)
-                    continue;
+                var dte = MergeUiPackage.GetGlobalService(typeof (SDTE)) as DTE;
 
-                var dacpac = FindDacpacPath(project);
-                var preDeployScript = FindPreDeployScriptPath(project);
-                var postDeployScript = FindPostDeployScriptPath(project);
-                descriptors.Add(new ProjectDescriptor(){Name = project.UniqueName, DacPath = dacpac, PreDeployScriptPath = preDeployScript, PostDeployScriptPath = postDeployScript});
+                if (dte == null || dte.ActiveSolutionProjects == null)
+                    return descriptors;
+
+                var projects = dte.ActiveSolutionProjects as System.Array;
+                for (int i = 0; i < projects.Length; i++)
+                {
+                    var project = projects.GetValue(i) as EnvDTE.Project;
+                    if (project.Kind != SsdtProject)
+                        continue;
+
+                    var dacpac = FindDacpacPath(project);
+                    var preDeployScript = FindPreDeployScriptPath(project);
+                    var postDeployScript = FindPostDeployScriptPath(project);
+                    descriptors.Add(new ProjectDescriptor()
+                    {
+                        Name = project.UniqueName,
+                        DacPath = dacpac,
+                        PreDeployScriptPath = preDeployScript,
+                        PostDeployScriptPath = postDeployScript
+                    });
+                }
+            }catch(Exception e)
+            {
+                MessageBox.Show("MergeUi was unable to process the dacpacs, error: {0}", e.Message);
             }
 
             return descriptors;

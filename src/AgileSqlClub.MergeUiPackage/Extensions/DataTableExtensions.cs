@@ -15,21 +15,25 @@ namespace AgileSqlClub.MergeUi.Extensions
             source.RowChanged += (sender, args) =>
             {
                 var dataTable = sender as DataTable;
-                dataTable.ExtendedProperties[DataTablePropertyNames.DataChanged] = true;
+                dataTable.SetDirty();
             };
 
             source.TableNewRow += (sender, args) =>
             {
                 var dataTable = sender as DataTable;
-                dataTable.ExtendedProperties[DataTablePropertyNames.DataChanged] = true;
+                dataTable.SetDirty();
             };
 
             source.RowDeleted += (sender, args) =>
             {
                 var dataTable = sender as DataTable;
-                dataTable.ExtendedProperties[DataTablePropertyNames.DataChanged] = true;
+                dataTable.SetDirty();
             };
+        }
 
+        public static void SetDirty(this DataTable source)
+        {
+            source.ExtendedProperties[DataTablePropertyNames.DataChanged] = true;
         }
 
         public static bool IsDirty(this DataTable source)

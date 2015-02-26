@@ -21,8 +21,8 @@
     <DockPanel>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="225*"/>
-                <RowDefinition Height="50*"/>
+                <RowDefinition Height="80*"/>
+                <RowDefinition Height="20*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10*"></ColumnDefinition>
@@ -30,11 +30,11 @@
                 <ColumnDefinition Width="10*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Controls:TransitioningContentControl  x:Name="Transitioning" Transition="Down" Grid.RowSpan="1" Grid.Row="0" Grid.Column="1" MaxHeight="200">
+            <Controls:TransitioningContentControl  x:Name="Transitioning" Transition="Down" Grid.RowSpan="1" Grid.Row="0" Grid.Column="1" >
             </Controls:TransitioningContentControl>
             <WrapPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" DockPanel.Dock="Bottom">
-                <Button Margin="10,5,10,1" Height="35" Width="55" x:Name="Back">Back</Button>
-                <Button Margin="10,5,10,1" Height="35" Width="55" x:Name="Forward" Click="NextControl">Forward</Button>
+                <Button Margin="10,10,5,5" Height="35" Width="65" x:Name="Back" Click="PreviousControl">Back</Button>
+                <Button Margin="10,10,5,5" Height="35" Width="65" x:Name="Forward" Click="NextControl">Next</Button>
             </WrapPanel>
         </Grid>
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using AgileSqlClub.MergeUi.Extensions;
+using AgileSqlClub.MergeUi.Metadata;
 using MahApps.Metro.Controls;
 
 namespace AgileSqlClub.MergeUi.Import
@@ -20,10 +23,13 @@ namespace AgileSqlClub.MergeUi.Import
     /// </summary>
     public partial class ImportData
     {
-        public ImportData()
+        private readonly ITable _table;
+
+        public ImportData(ITable table)
         {
+            _table = table;
             InitializeComponent();
-            _pages = new List<Page>() { new ImportConnect(), new ImportShowData() , new ImportConfirm()};
+            _pages = new List<Page>() { new ImportConnect(this), new ImportShowData(this, _table)};
             Transitioning.Content = _pages[0].Content;
         }
 
@@ -32,14 +38,54 @@ namespace AgileSqlClub.MergeUi.Import
 
         private void NextControl(object sender, RoutedEventArgs e)
         {
-            if (_currentPage >= _pages.Count)
+            if (Forward.Content == "Save")
+            {
+                Save();
+                return;
+            }
+
+            if (_currentPage > _pages.Count)
                 return;
 
-            Transitioning.Content = _pages[_currentPage++].Content;
-            if (_currentPage >= _pages.Count)
-                return;
+            Back.IsEnabled = true;
 
-            Forward.IsEnabled = false;
+            (_pages[_currentPage] as IMovingPage).SaveData();
+
+            Transitioning.Content = _pages[++_currentPage].Content;
+
+            if (_currentPage > _pages.Count)
+                return;
+            
+            Forward.Content = "Save";
         }
+
+        private void Save()
+        {
+            _table.Data = Table;
+            _table.Data.SetDirty();
+            
+            Close();
+        }
+
+        private void PreviousControl(object sender, RoutedEventArgs e)
+        {
+            if (_currentPage <= 0)
+                return;
+
+            Forward.IsEnabled = true;
+            Forward.Content = "Next";
+
+            Transitioning.Content = _pages[--_currentPage].Content;
+
+            if (_currentPage > 0)
+                return;
+
+            
+            Back.IsEnabled = false;
+        }
+
+        public string ConnectionString { get; set; }
+        public string Database { get; set; }
+        public DataTable Table { get; set; }
     }
 }

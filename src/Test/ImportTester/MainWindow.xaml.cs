@@ -26,7 +26,7 @@ namespace ImportTester
             InitializeComponent();
 
             var i = new Importer();
-            i.GetData();
+          //  i.GetData();
         }
     }
 }

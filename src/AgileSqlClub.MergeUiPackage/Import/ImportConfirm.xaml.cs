@@ -18,11 +18,16 @@ namespace AgileSqlClub.MergeUi.Import
     /// <summary>
     /// Interaction logic for ImportConfirm.xaml
     /// </summary>
-    public partial class ImportConfirm : Page
+    public partial class ImportConfirm : Page, IMovingPage
     {
         public ImportConfirm()
         {
             InitializeComponent();
+        }
+
+        public void SaveData()
+        {
+            
         }
     }
 }

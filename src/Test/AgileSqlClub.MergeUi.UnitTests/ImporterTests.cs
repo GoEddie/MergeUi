@@ -7,14 +7,5 @@ using NUnit.Framework;
 
 namespace AgileSqlClub.MergeUi.UnitTests
 {
-    [TestFixture]
-    class ImporterTests
-    {
-        [Test]
-        public void test()
-        {
-            var i = new Importer();
-            i.GetData();
-        }
-    }
+    
 }
