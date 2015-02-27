@@ -3,7 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          x:Class="AgileSqlClub.MergeUi.Import.ImportData"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="Import Data From a Database" Height="300" Width="500">
+        Title="Import Data From a Database" Height="300" Width="500"
+            BorderBrush="{DynamicResource AccentColorBrush}"
+                      BorderThickness="1"
+    >
     
     <Window.Resources>
         
@@ -12,7 +15,7 @@
                     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/steel.xaml" />
                     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
@@ -24,17 +27,12 @@
                 <RowDefinition Height="80*"/>
                 <RowDefinition Height="20*"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10*"></ColumnDefinition>
-                <ColumnDefinition Width="80*"></ColumnDefinition>
-                <ColumnDefinition Width="10*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
 
-            <Controls:TransitioningContentControl  x:Name="Transitioning" Transition="Down" Grid.RowSpan="1" Grid.Row="0" Grid.Column="1" >
-            </Controls:TransitioningContentControl>
-            <WrapPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" DockPanel.Dock="Bottom">
-                <Button Margin="10,10,5,5" Height="35" Width="65" x:Name="Back" Click="PreviousControl">Back</Button>
-                <Button Margin="10,10,5,5" Height="35" Width="65" x:Name="Forward" Click="NextControl">Next</Button>
+            <Controls:TransitioningContentControl  DockPanel.Dock="Top"  x:Name="Transitioning" Transition="Down" Grid.Row="0"></Controls:TransitioningContentControl>
+            
+            <WrapPanel Grid.Row="1"  HorizontalAlignment="Center" DockPanel.Dock="Bottom">
+                <Button Margin="10,10,5,5" Height="35" Width="65" x:Name="Back" Click="PreviousControl" IsEnabled="false">Back</Button>
+                <Button Margin="10,10,5,5" Height="35" Width="65" x:Name="Forward" Click="NextControl"  IsEnabled="true">Next</Button>
             </WrapPanel>
         </Grid>
 

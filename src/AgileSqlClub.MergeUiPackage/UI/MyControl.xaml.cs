@@ -89,8 +89,16 @@ namespace AgileSqlClub.MergeUi.UI
 
             Schemas.ItemsSource = null;
             Tables.ItemsSource = null;
-
+            
             _currentProject = _solution.GetProject(projectName);
+
+            if (string.IsNullOrEmpty(_currentProject.GetScript(ScriptType.PreDeploy)) &&
+                string.IsNullOrEmpty(_currentProject.GetScript(ScriptType.PostDeploy)))
+            {
+                MessageBox.Show("The project needs a post deploy script - add one anywhere in the project amd refresh");
+                return;
+            }
+            
             LastBuildTime.Text = string.Format("Last Dacpac Build Time: {0}", _currentProject.GetLastBuildTime());
             Schemas.ItemsSource = _currentProject.GetSchemas();
         }

@@ -9,7 +9,7 @@
 
     
     <DockPanel>
-        <DataGrid x:Name="DataGrid" DockPanel.Dock="Top" ItemsSource="{Binding}" MinHeight="250"></DataGrid>
+        <DataGrid x:Name="DataGrid" DockPanel.Dock="Top" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"></DataGrid>
     </DockPanel>
     
 </Page>

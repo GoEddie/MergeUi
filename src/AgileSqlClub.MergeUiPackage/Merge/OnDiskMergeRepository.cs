@@ -36,11 +36,15 @@ namespace AgileSqlClub.MergeUi.Merge
         private void BuildScriptGateways()
         {
                 var path = _project.GetScript(ScriptType.PreDeploy);
-                
-                _scriptGateways["Pre"] = new ScriptFileGateway(_project, path);
+
+                if(!string.IsNullOrEmpty(path))       
+                    _scriptGateways["Pre"] = new ScriptFileGateway(_project, path);
             
+
                 path = _project.GetScript(ScriptType.PostDeploy);
-                _scriptGateways["Post"] = new ScriptFileGateway(_project, path);
+
+                if (!string.IsNullOrEmpty(path))       
+                    _scriptGateways["Post"] = new ScriptFileGateway(_project, path);
             
         }
 

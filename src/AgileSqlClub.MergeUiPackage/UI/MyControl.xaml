@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="3090" d:DesignWidth="3000" MinHeight="350" MinWidth="350"
              Name="MyToolWindow" >
-    
+    <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
     <Grid>
         <WrapPanel Orientation="Horizontal">
             <StackPanel HorizontalAlignment="Stretch">
@@ -23,21 +23,28 @@
                     <ComboBox x:Name="Tables" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="25" Margin="10, 10, 10, 10" MinWidth="400" SelectionChanged="Tables_OnSelectionChanged" ></ComboBox>
                     <Button HorizontalAlignment="Right" Content="Import" Height="25" MinWidth="65" Margin="10, 10, 10, 10" Click="ImportTable" x:Name="ImportButton"/>
                 </WrapPanel>
-                <TextBlock x:Name="LastBuildTime" Foreground="ForestGreen" HorizontalAlignment="Stretch" Height="25" Margin="10, 10, 10, 10" MinWidth="400" Text="Last Modified Time"></TextBlock>
-                <TextBlock x:Name="LastStatusMessage" Foreground="ForestGreen" HorizontalAlignment="Stretch" Height="50" Margin="10, 10, 10, 10" MinWidth="400" Text="Status:"></TextBlock>
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Stretch" MinWidth="750">
-                <DataGrid x:Name="DataGrid" HorizontalAlignment="Stretch" Margin="10, 10, 20, 10" Height="240" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding}" RowEditEnding="DataGrid_OnRowEditEnding"> </DataGrid>
-                <WrapPanel HorizontalAlignment="Stretch">
 
-                    <Button HorizontalAlignment="Right" Content="Save" Height="25" MinWidth="65" Margin="10, 10, 10, 10" Click="button1_Save"/>
-                    
-                </WrapPanel>
+                    <TextBlock x:Name="LastBuildTime" Foreground="Black" Background="WhiteSmoke" HorizontalAlignment="Stretch" Height="25" Margin="10, 10, 10, 10" MinWidth="400" Text="Last Modified Time"></TextBlock>
+                    <TextBlock x:Name="LastStatusMessage" Background="WhiteSmoke" HorizontalAlignment="Stretch" Height="50" Margin="10, 10, 10, 10" MinWidth="400" Text="Status:"></TextBlock>
             </StackPanel>
+            
+                <Grid MinWidth="500" MaxWidth="750" MaxHeight="1000">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="90*"></RowDefinition>
+                        <RowDefinition Height="10*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                
+                    <DataGrid x:Name="DataGrid" Grid.Row="0" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" ItemsSource="{Binding}" RowEditEnding="DataGrid_OnRowEditEnding"> </DataGrid>
+
+                    <Button HorizontalAlignment="Right" Grid.Row="1" Content="Save" Height="25" MinWidth="65" Margin="10, 10, 10, 10" Click="button1_Save"/>
+                    
+
+                </Grid>
+            
         </WrapPanel>
         
     </Grid>
-    
+    </ScrollViewer>
 </UserControl>
 <!--
      Background="{DynamicResource VsBrush.Window}"

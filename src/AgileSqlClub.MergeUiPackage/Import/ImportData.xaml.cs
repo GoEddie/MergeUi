@@ -38,7 +38,7 @@ namespace AgileSqlClub.MergeUi.Import
 
         private void NextControl(object sender, RoutedEventArgs e)
         {
-            if (Forward.Content == "Save")
+            if (Forward.Content == "Import")
             {
                 Save();
                 return;
@@ -58,7 +58,7 @@ namespace AgileSqlClub.MergeUi.Import
             if (_currentPage > _pages.Count)
                 return;
             
-            Forward.Content = "Save";
+            Forward.Content = "Import";
         }
 
         private void Save()

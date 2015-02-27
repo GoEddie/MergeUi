@@ -232,6 +232,11 @@
     <None Include="Resources\Images.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\M.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Resource Include="Resources\M.png" />
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>

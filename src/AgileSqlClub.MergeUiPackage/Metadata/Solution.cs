@@ -18,7 +18,6 @@ namespace AgileSqlClub.MergeUi.Metadata
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-
             statusDisplay.SetStatus("Finding Sql Projects...");
             var projects = projectEnumerator.EnumerateProjects();
             

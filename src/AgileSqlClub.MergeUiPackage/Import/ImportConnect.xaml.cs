@@ -68,6 +68,8 @@ namespace AgileSqlClub.MergeUi.Import
         {
             try
             {
+                this.Dispatcher.Invoke(() => Connect.IsEnabled = false);
+
                 using (var con = new SqlConnection(connectionString))
                 {
                     con.Open();
@@ -95,6 +97,8 @@ namespace AgileSqlClub.MergeUi.Import
                     MessageBox.Show("Error - unable to get database list, error: " + e.Message);
                 });
             }
+
+            this.Dispatcher.Invoke(() => Connect.IsEnabled = true);
         }
 
         public void ShowData()
