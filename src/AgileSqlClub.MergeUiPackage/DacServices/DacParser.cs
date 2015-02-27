@@ -108,6 +108,8 @@ namespace AgileSqlClub.MergeUi.DacServices
             var definition = new ColumnDescriptor();
             definition.Name = new Identifier {Value = column.ObjectName.GetName()};
             var type = column.Object.GetReferenced(Column.DataType).FirstOrDefault();
+            
+            
             if (type == null)
                 return null;//COMPUTED COLUMN
 

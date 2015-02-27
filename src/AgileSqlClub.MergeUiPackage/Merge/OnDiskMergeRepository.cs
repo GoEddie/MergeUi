@@ -81,7 +81,7 @@ namespace AgileSqlClub.MergeUi.Merge
         
         private void GetTables()
         {
-            var tables = new ScriptParser(_path).GetDataTables();
+            var tables = new ScriptParser(_path, _project).GetDataTables();
             foreach (var table in tables)
             {
                 _project.AddTable(table.SchemaName, table);

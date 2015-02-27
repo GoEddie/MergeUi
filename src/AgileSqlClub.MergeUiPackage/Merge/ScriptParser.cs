@@ -15,10 +15,12 @@ namespace AgileSqlClub.MergeUi.Merge
     class ScriptParser
     {
         private readonly string _path;
+        private readonly VsProject _project;
 
-        public ScriptParser(string path)
+        public ScriptParser(string path, VsProject project)
         {
             _path = path;
+            _project = project;
         }
 
         public List<ITable> GetDataTables()
@@ -37,7 +39,7 @@ namespace AgileSqlClub.MergeUi.Merge
 
                 foreach (var merge in visitor.Merges)
                 {
-                    tables.Add(new MergeStatementParser(merge).GetDescriptor(_path));
+                    tables.Add(new MergeStatementParser(merge).GetDescriptor(_path, _project));
                 }
             }
 

@@ -33,12 +33,24 @@ namespace AgileSqlClub.MergeUi.Merge
 
             table.RowValues.Clear();
 
+            var columnsToRemove = new List<DataColumn>();
+            for (int i = 0; i < data.Columns.Count; i++)
+            {
+                if(columns.FirstOrDefault(p=>p.Name.Value == data.Columns[i].ColumnName) == null)
+                    columnsToRemove.Add(data.Columns[i]);
+            }
+
+            foreach (var column in columnsToRemove)
+            {
+                data.Columns.Remove(column);
+            }
+
             foreach (DataRow row in data.Rows)
             {
                 var rowValue = new RowValue();
                 for (int i = 0; i < row.ItemArray.Length; i++)
                 {
-                    rowValue.ColumnValues.Add(GetColumnValue(row.ItemArray[i] as string, columns[i].LiteralType));
+                    rowValue.ColumnValues.Add(GetColumnValue(row.ItemArray[i].ToString(), columns[i].LiteralType));
                 }
 
                 table.RowValues.Add(rowValue);
@@ -76,7 +88,5 @@ namespace AgileSqlClub.MergeUi.Merge
                     throw new ArgumentOutOfRangeException();
             }
         }
-
-
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Windows;
 using AgileSqlClub.MergeUi.Extensions;
 using AgileSqlClub.MergeUi.Metadata;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
@@ -17,57 +18,53 @@ namespace AgileSqlClub.MergeUi.Merge
             _merge = merge;
         }
 
-        public ITable GetDescriptor(string filePath)
+        public ITable GetDescriptor(string filePath, VsProject project)
         {
             var fileContent = File.ReadAllText(filePath);
 
-            var table = new Table
-            {
-                Name = (_merge.MergeSpecification.Target as NamedTableReference).SchemaObject.BaseIdentifier.Value,
-                SchemaName =(_merge.MergeSpecification.Target as NamedTableReference).SchemaObject.SchemaIdentifier.Value,
-                Merge =
-                {
-                    MergeStatement = _merge,
-                    ScriptOffset = _merge.StartOffset,
-                    ScriptLength = _merge.FragmentLength,
-                    OriginalScript =  fileContent.Substring(_merge.StartOffset, _merge.FragmentLength),
-                    File = filePath
-                }
-            };
-
+            var name = (_merge.MergeSpecification.Target as NamedTableReference).SchemaObject.BaseIdentifier.Value;
+            var schemaName = (_merge.MergeSpecification.Target as NamedTableReference).SchemaObject.SchemaIdentifier.Value;
+            var table = project.GetTable(schemaName, name);
+            table.Merge.MergeStatement = _merge;
+            table.Merge.ScriptLength = _merge.FragmentLength;
+            table.Merge.ScriptOffset = _merge.StartOffset;
+            table.Merge.OriginalScript = fileContent.Substring(_merge.StartOffset, _merge.FragmentLength);
+            table.Merge.File = filePath;
+            
 
             table.Data = new DataTable(table.Name);
-            table = DataTableFromMerge(table);
+            FillDataTableFromMerge(table);
             return table;
         }
 
-        private Table DataTableFromMerge(Table table)
+        private void FillDataTableFromMerge(ITable table)
         {
             bool needColumnDescriptors = true;
 
             var inlineTable = _merge.MergeSpecification.TableReference as InlineDerivedTable;
 
             if (null == inlineTable)
-                return null;
+                return;
 
             if(table.Columns == null)
                 table.Columns =new List<ColumnDescriptor>();
+
+            if (table.Columns.Count > 0)
+                needColumnDescriptors = false;
+
+            if (table.Data.Columns.Count <= 0)
+            {
+                foreach (var col in table.Columns)
+                {
+                    table.Data.Columns.Add(new DataColumn(col.Name.Value));
+                }
+            }
 
             foreach (var row in inlineTable.RowValues)
             {
                 if (needColumnDescriptors)
                 {
-                    foreach (var columnValue in row.ColumnValues)
-                    {
-                        var val = columnValue as Literal;
-
-                        if (val == null)
-                            throw new NotImplementedException("couldn't convert value to a literal");
-
-                        table.Columns.Add(new ColumnDescriptor { LiteralType = val.LiteralType });
-
-                        table.Data.Columns.Add(new DataColumn());
-                    }
+                    MessageBox.Show("erm this is really bad");
                 }
 
                 var dataTableRow = table.Data.NewRow();
@@ -86,7 +83,6 @@ namespace AgileSqlClub.MergeUi.Merge
             table.Data.ExtendedProperties.Add(DataTablePropertyNames.DataChanged, false);
             table.Data.EnableDirtyWatcher();
     
-            return table;
         }
 
     }

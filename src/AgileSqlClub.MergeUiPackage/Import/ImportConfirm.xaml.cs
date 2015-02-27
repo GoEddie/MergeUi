@@ -25,6 +25,11 @@ namespace AgileSqlClub.MergeUi.Import
             InitializeComponent();
         }
 
+        public void ShowData()
+        {
+            
+        }
+
         public void SaveData()
         {
             

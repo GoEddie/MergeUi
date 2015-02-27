@@ -31,14 +31,11 @@ namespace AgileSqlClub.MergeUi.Import
             InitializeComponent();
             _importData = importData;
             _table = table;
-        }
 
-        public void SaveData()
-        {
             
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        public void ShowData()
         {
             Task.Run(() => ImportTable());
         }
@@ -68,6 +65,11 @@ namespace AgileSqlClub.MergeUi.Import
             {
                 this.Dispatcher.Invoke(() => MessageBox.Show("Error importing data: " + e.Message));
             }
+        }
+
+        public void SaveData()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -4,6 +4,10 @@ namespace AgileSqlClub.MergeUi.Merge
 {
     public class ColumnDescriptor
     {
+        public ColumnDescriptor()
+        {
+            
+        }
         public LiteralType LiteralType;
         public Identifier Name; 
     }

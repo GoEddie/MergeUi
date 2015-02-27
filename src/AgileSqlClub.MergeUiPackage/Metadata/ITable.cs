@@ -65,6 +65,7 @@ namespace AgileSqlClub.MergeUi.Metadata
             {
                 //if detils of Merge.Blah are filled in then update the current Merge.MergeStatement with the new datatable and then get the script and overwrite the existing script..
                 //if it is not filled in, we need to create a new one and build a new merge 
+                Data.AcceptChanges();
 
                 if (Merge.MergeStatement == null)
                 {

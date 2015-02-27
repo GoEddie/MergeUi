@@ -1,42 +1,43 @@
 ﻿using System;
-using System.IO;
-using System.Threading;
-using System.Web.UI.Design;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
+using System.Windows.Input;
 using AgileSqlClub.MergeUi.DacServices;
 using AgileSqlClub.MergeUi.Merge;
 using AgileSqlClub.MergeUi.Metadata;
 using AgileSqlClub.MergeUi.VSServices;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using MessageBox = System.Windows.Forms.MessageBox;
-using UserControl = System.Windows.Controls.UserControl;
 
 namespace AgileSqlClub.MergeUi.UI
 {
-
     public partial class MyControl : UserControl, IStatus
     {
-        private ISolution _solution;
+        private bool _currentDataGridDirty;
         private VsProject _currentProject;
         private ISchema _currentSchema;
         private ITable _currentTable;
+        private ISolution _solution;
 
         public MyControl()
         {
             InitializeComponent();
-            
-            Refresh();
+
+            //Refresh();
         }
 
-        void Refresh()
+        public void SetStatus(string message)
         {
-            ThreadPool.QueueUserWorkItem(DoRefresh);
+            Dispatcher.InvokeAsync(() => { LastStatusMessage.Text = message; });
         }
 
-        private  void DoRefresh(object state)
+        private void Refresh()
+        {
+            Task.Run(() => DoRefresh());
+        }
+
+        private void DoRefresh()
         {
             if (_currentDataGridDirty)
             {
@@ -46,9 +47,9 @@ namespace AgileSqlClub.MergeUi.UI
                 }
             }
 
-            System.Windows.Input.Cursor cursor = System.Windows.Input.Cursors.Arrow; 
-            
-            this.Dispatcher.Invoke(() =>
+            var cursor = Cursors.Arrow;
+
+            Dispatcher.Invoke(() =>
             {
                 cursor = Cursor;
                 RefreshButton.IsEnabled = false;
@@ -57,35 +58,25 @@ namespace AgileSqlClub.MergeUi.UI
                 Tables.ItemsSource = null;
                 DataGrid.DataContext = null;
 
-                Cursor = System.Windows.Input.Cursors.Wait;
+                Cursor = Cursors.Wait;
             });
-    
+
             _solution = new Solution(new ProjectEnumerator(), new DacParserBuilder(), this);
-            
-            this.Dispatcher.Invoke(() =>
+
+            Dispatcher.Invoke(() =>
             {
                 Projects.ItemsSource = _solution.GetProjects();
                 Cursor = cursor;
                 RefreshButton.IsEnabled = true;
             });
-    
         }
 
-        public void SetStatus(string message)
-        {
-            this.Dispatcher.InvokeAsync(() =>
-            {
-                LastStatusMessage.Text = message;
-            });
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
+        [SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             Refresh();
         }
 
-            
         private void Projects_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (null == Projects.SelectedValue)
@@ -117,13 +108,10 @@ namespace AgileSqlClub.MergeUi.UI
             _currentSchema = _currentProject.GetSchema(schemaName);
 
             Tables.ItemsSource = _currentSchema.GetTables();
-
-            
         }
 
         private void Tables_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
             if (null == Tables.SelectedValue)
                 return;
 
@@ -137,22 +125,18 @@ namespace AgileSqlClub.MergeUi.UI
             if (_currentTable.Data == null)
             {
                 _currentTable.Data = new DataTableBuilder(tableName, _currentTable.Columns).Get();
-                
             }
 
-            DataGrid.DataContext = _currentTable.Data.DefaultView;  //TODO -= check for null and start adding a datatable when building the table (maybe need a lazy loading)
-                                                                    //we also need a repository of merge statements which is the on disk representation so we can grab those
-                                                                    //if they exist or just create a new one - then save them back and 
-
-            
+            DataGrid.DataContext = _currentTable.Data.DefaultView;
+                //TODO -= check for null and start adding a datatable when building the table (maybe need a lazy loading)
+            //we also need a repository of merge statements which is the on disk representation so we can grab those
+            //if they exist or just create a new one - then save them back and 
         }
 
         private bool CheckSaveChanges()
         {
             return true;
         }
-
-        private bool _currentDataGridDirty;
 
         private void DataGrid_OnRowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
@@ -164,7 +148,7 @@ namespace AgileSqlClub.MergeUi.UI
             //need to finish off saving back to the files (need a radio button with pre/post deploy (not changeable when read from file) - futrue feature
             //need a check to write files on window closing
             //need lots of tests
-            
+
             _solution.Save();
         }
 
@@ -178,6 +162,8 @@ namespace AgileSqlClub.MergeUi.UI
 
             new Importer().GetData(_currentTable);
             DataGrid.DataContext = _currentTable.Data.DefaultView;
+            
+            
         }
     }
 

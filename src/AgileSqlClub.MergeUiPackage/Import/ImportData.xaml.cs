@@ -53,6 +53,8 @@ namespace AgileSqlClub.MergeUi.Import
 
             Transitioning.Content = _pages[++_currentPage].Content;
 
+            (_pages[_currentPage] as IMovingPage).ShowData();
+
             if (_currentPage > _pages.Count)
                 return;
             

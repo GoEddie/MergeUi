@@ -97,6 +97,11 @@ namespace AgileSqlClub.MergeUi.Import
             }
         }
 
+        public void ShowData()
+        {
+            
+        }
+
         public void SaveData()
         {
             _importData.Database = DatabaseList.SelectedValue == null ? null : DatabaseList.SelectedValue.ToString();
@@ -105,6 +110,7 @@ namespace AgileSqlClub.MergeUi.Import
 
     public interface IMovingPage
     {
+        void ShowData();
         void SaveData();
     }
 }
