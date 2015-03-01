@@ -72,7 +72,15 @@ namespace AgileSqlClub.MergeUi.Merge
 
                 foreach (var columnValue in row.ColumnValues)
                 {
-                    dataTableRow[index++] = (columnValue as Literal).Value;
+                    if (columnValue as NullLiteral != null)
+                    {
+                        dataTableRow[index++] = DBNull.Value;
+                    }
+                    else
+                    {
+                        dataTableRow[index++] = (columnValue as Literal).Value;    
+                    }
+                    
                 }
                 
                 table.Data.Rows.Add(dataTableRow);

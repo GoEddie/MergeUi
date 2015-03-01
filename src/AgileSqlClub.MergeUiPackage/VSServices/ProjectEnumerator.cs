@@ -98,7 +98,7 @@ namespace AgileSqlClub.MergeUi.VSServices
             if (project == null)
                 return null;
 
-            var items = GetChildObjectsWithBuildAction(project.ProjectItems, "PostDeploy");
+            var items = GetChildObjectsWithBuildAction(project.ProjectItems, property);
 
             return items;
         }

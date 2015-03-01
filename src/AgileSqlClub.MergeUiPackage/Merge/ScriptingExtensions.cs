@@ -50,7 +50,14 @@ namespace AgileSqlClub.MergeUi.Merge
                 var rowValue = new RowValue();
                 for (int i = 0; i < row.ItemArray.Length; i++)
                 {
-                    rowValue.ColumnValues.Add(GetColumnValue(row.ItemArray[i].ToString(), columns[i].LiteralType));
+                    if (row.ItemArray[i] == DBNull.Value)
+                    {
+                        rowValue.ColumnValues.Add(new NullLiteral());
+                    }
+                    else
+                    {
+                        rowValue.ColumnValues.Add(GetColumnValue(row.ItemArray[i].ToString(), columns[i].LiteralType));
+                    }
                 }
 
                 table.RowValues.Add(rowValue);

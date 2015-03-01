@@ -71,6 +71,7 @@ namespace AgileSqlClub.MergeUi.Merge
         {
             _project = project;
             _path = path;
+            
         }
 
         public void UpdateData()
@@ -96,7 +97,11 @@ namespace AgileSqlClub.MergeUi.Merge
         {
             var lastWriteTime = File.GetLastWriteTime(_path);
 
-            return lastWriteTime > _lastScriptSaveTime;
+            var ret = lastWriteTime > _lastScriptSaveTime;
+
+            _lastScriptSaveTime = File.GetLastWriteTime(_path);
+
+            return ret;
         }
     }
 }

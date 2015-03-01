@@ -26,6 +26,9 @@ namespace AgileSqlClub.MergeUi.Metadata
             {
                 statusDisplay.SetStatus(string.Format("Enumerating project {0} or {1}", count++, projects.Count));
 
+                if (!File.Exists(project.DacPath))
+                    continue;
+
                 var dac = dacParserBuilder.Build(project.DacPath);
                 
                 _projectList.Add(project.Name);
