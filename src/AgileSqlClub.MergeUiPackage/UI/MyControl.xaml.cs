@@ -39,36 +39,46 @@ namespace AgileSqlClub.MergeUi.UI
 
         private void DoRefresh()
         {
-            if (_currentDataGridDirty)
+            try
             {
-                if (!CheckSaveChanges())
+                if (_currentDataGridDirty)
                 {
-                    return;
+                    if (!CheckSaveChanges())
+                    {
+                        return;
+                    }
                 }
+
+                var cursor = Cursors.Arrow;
+
+                Dispatcher.Invoke(() =>
+                {
+                    cursor = Cursor;
+                    RefreshButton.IsEnabled = false;
+                    Projects.ItemsSource = null;
+                    Schemas.ItemsSource = null;
+                    Tables.ItemsSource = null;
+                    DataGrid.DataContext = null;
+
+                    Cursor = Cursors.Wait;
+                });
+
+                _solution = new Solution(new ProjectEnumerator(), new DacParserBuilder(), this);
+
+                Dispatcher.Invoke(() =>
+                {
+                    Projects.ItemsSource = _solution.GetProjects();
+                    Cursor = cursor;
+                    RefreshButton.IsEnabled = true;
+                });
             }
-
-            var cursor = Cursors.Arrow;
-
-            Dispatcher.Invoke(() =>
+            catch (Exception e)
             {
-                cursor = Cursor;
-                RefreshButton.IsEnabled = false;
-                Projects.ItemsSource = null;
-                Schemas.ItemsSource = null;
-                Tables.ItemsSource = null;
-                DataGrid.DataContext = null;
-
-                Cursor = Cursors.Wait;
-            });
-
-            _solution = new Solution(new ProjectEnumerator(), new DacParserBuilder(), this);
-
-            Dispatcher.Invoke(() =>
-            {
-                Projects.ItemsSource = _solution.GetProjects();
-                Cursor = cursor;
-                RefreshButton.IsEnabled = true;
-            });
+                Dispatcher.Invoke(() =>
+                {
+                    LastStatusMessage.Text = "Error Enumerating projects: " + e.Message;
+                });
+            }
         }
 
         [SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
@@ -79,66 +89,95 @@ namespace AgileSqlClub.MergeUi.UI
 
         private void Projects_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (null == Projects.SelectedValue)
-                return;
-
-            var projectName = Projects.SelectedValue.ToString();
-
-            if (String.IsNullOrEmpty(projectName))
-                return;
-
-            Schemas.ItemsSource = null;
-            Tables.ItemsSource = null;
-            
-            _currentProject = _solution.GetProject(projectName);
-
-            if (string.IsNullOrEmpty(_currentProject.GetScript(ScriptType.PreDeploy)) &&
-                string.IsNullOrEmpty(_currentProject.GetScript(ScriptType.PostDeploy)))
+            try
             {
-                MessageBox.Show("The project needs a post deploy script - add one anywhere in the project amd refresh");
-                return;
+                if (null == Projects.SelectedValue)
+                    return;
+
+                var projectName = Projects.SelectedValue.ToString();
+
+                if (String.IsNullOrEmpty(projectName))
+                    return;
+
+                Schemas.ItemsSource = null;
+                Tables.ItemsSource = null;
+
+                _currentProject = _solution.GetProject(projectName);
+
+                if (string.IsNullOrEmpty(_currentProject.GetScript(ScriptType.PreDeploy)) &&
+                    string.IsNullOrEmpty(_currentProject.GetScript(ScriptType.PostDeploy)))
+                {
+                    MessageBox.Show(
+                        "The project needs a post deploy script - add one anywhere in the project amd refresh");
+                    return;
+                }
+
+                LastBuildTime.Text = string.Format("Last Dacpac Build Time: {0}", _currentProject.GetLastBuildTime());
+                Schemas.ItemsSource = _currentProject.GetSchemas();
             }
-            
-            LastBuildTime.Text = string.Format("Last Dacpac Build Time: {0}", _currentProject.GetLastBuildTime());
-            Schemas.ItemsSource = _currentProject.GetSchemas();
+            catch (Exception ex)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    LastStatusMessage.Text = "Error Enumerating projects: " + ex.Message;
+                });
+            }
         }
 
         private void Schemas_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (null == Schemas.SelectedValue)
-                return;
+            try
+            {
+                if (null == Schemas.SelectedValue)
+                    return;
 
-            var schemaName = Schemas.SelectedValue.ToString();
+                var schemaName = Schemas.SelectedValue.ToString();
 
-            if (String.IsNullOrEmpty(schemaName))
-                return;
+                if (String.IsNullOrEmpty(schemaName))
+                    return;
 
-            _currentSchema = _currentProject.GetSchema(schemaName);
+                _currentSchema = _currentProject.GetSchema(schemaName);
 
-            Tables.ItemsSource = _currentSchema.GetTables();
+                Tables.ItemsSource = _currentSchema.GetTables();
+            }catch (Exception ex)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    LastStatusMessage.Text = "Error Enumerating projects: " + ex.Message;
+                });
+            }
         }
 
         private void Tables_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (null == Tables.SelectedValue)
-                return;
-
-            var tableName = Tables.SelectedValue.ToString();
-
-            if (String.IsNullOrEmpty(tableName))
-                return;
-
-            _currentTable = _currentSchema.GetTable(tableName);
-
-            if (_currentTable.Data == null)
+            try
             {
-                _currentTable.Data = new DataTableBuilder(tableName, _currentTable.Columns).Get();
-            }
+                if (null == Tables.SelectedValue)
+                    return;
 
-            DataGrid.DataContext = _currentTable.Data.DefaultView;
+                var tableName = Tables.SelectedValue.ToString();
+
+                if (String.IsNullOrEmpty(tableName))
+                    return;
+
+                _currentTable = _currentSchema.GetTable(tableName);
+
+                if (_currentTable.Data == null)
+                {
+                    _currentTable.Data = new DataTableBuilder(tableName, _currentTable.Columns).Get();
+                }
+
+                DataGrid.DataContext = _currentTable.Data.DefaultView;
                 //TODO -= check for null and start adding a datatable when building the table (maybe need a lazy loading)
-            //we also need a repository of merge statements which is the on disk representation so we can grab those
-            //if they exist or just create a new one - then save them back and 
+                //we also need a repository of merge statements which is the on disk representation so we can grab those
+                //if they exist or just create a new one - then save them back and 
+            }catch (Exception ex)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    LastStatusMessage.Text = "Error Enumerating projects: " + ex.Message;
+                });
+            }
         }
 
         private bool CheckSaveChanges()
@@ -156,8 +195,16 @@ namespace AgileSqlClub.MergeUi.UI
             //need to finish off saving back to the files (need a radio button with pre/post deploy (not changeable when read from file) - futrue feature
             //need a check to write files on window closing
             //need lots of tests
-
-            _solution.Save();
+            try
+            {
+                _solution.Save();
+            }catch (Exception ex)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    LastStatusMessage.Text = "Error Enumerating projects: " + ex.Message;
+                });
+            }
         }
 
         private void ImportTable(object sender, RoutedEventArgs e)
@@ -167,8 +214,19 @@ namespace AgileSqlClub.MergeUi.UI
                 MessageBox.Show("Please choose a table in the drop down list");
                 return;
             }
+            try
+            {
 
-            new Importer().GetData(_currentTable);
+
+                new Importer().GetData(_currentTable);
+            }
+            catch (Exception ex)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    LastStatusMessage.Text = "Error Enumerating projects: " + ex.Message;
+                });
+            }
             DataGrid.DataContext = _currentTable.Data.DefaultView;
             
             

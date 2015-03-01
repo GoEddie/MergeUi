@@ -4,7 +4,7 @@
     <Identity Id="78b76b0b-9e06-4f24-b20b-8a56ee968feb" Version="0.1" Language="en-US" Publisher="The Agile Sql Club" />
     <DisplayName>AgileSqlClub.MergeUiPackage</DisplayName>
     <Description>This manages pre/post-deployment scripts in SSDT projects to create a set of merge statements which can be used to deploy static or reference data.</Description>
-    <MoreInfo>https://the.agilesql.club/Projects/SSDT-MergeUi/About</MoreInfo>
+    <MoreInfo>https://the.agilesql.club/Blog/Ed-Elliott/Introducing-MergeUi-Create-And-Edit-Merge-Statements</MoreInfo>
     <License>LICENSE.txt</License>
     <Icon>Resources\M.ico</Icon>
     <PreviewImage>Resources\M.png</PreviewImage>
