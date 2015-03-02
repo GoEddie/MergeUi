@@ -108,7 +108,7 @@ namespace AgileSqlClub.MergeUi.UI
                     string.IsNullOrEmpty(_currentProject.GetScript(ScriptType.PostDeploy)))
                 {
                     MessageBox.Show(
-                        "The project needs a post deploy script - add one anywhere in the project amd refresh");
+                        "The project needs a post deploy script - add one anywhere in the project and refresh");
                     return;
                 }
 

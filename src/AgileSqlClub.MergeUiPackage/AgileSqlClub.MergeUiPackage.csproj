@@ -46,6 +46,10 @@
     <Reference Include="Microsoft.Data.Tools.Schema.Sql">
       <HintPath>C:\Program Files (x86)\Microsoft SQL Server\120\DAC\bin\Microsoft.Data.Tools.Schema.Sql.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Data.Tools.Utilities, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Microsoft.Data.Tools.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.SqlServer.Dac">
       <HintPath>C:\Program Files (x86)\Microsoft SQL Server\120\DAC\bin\Microsoft.SqlServer.Dac.dll</HintPath>
     </Reference>

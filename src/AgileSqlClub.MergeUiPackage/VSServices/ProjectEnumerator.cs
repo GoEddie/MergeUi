@@ -24,13 +24,12 @@ namespace AgileSqlClub.MergeUi.VSServices
             {
                 var dte = MergeUiPackage.GetGlobalService(typeof (SDTE)) as DTE;
 
-                if (dte == null || dte.ActiveSolutionProjects == null)
+                if (dte == null || dte.Solution == null || dte.Solution.Projects == null)
                     return descriptors;
-
-                var projects = dte.ActiveSolutionProjects as System.Array;
-                for (int i = 0; i < projects.Length; i++)
+                
+                for (int i = 1; i <= dte.Solution.Projects.Count; i++)
                 {
-                    var project = projects.GetValue(i) as EnvDTE.Project;
+                    var project = dte.Solution.Projects.Item(i);
                     if (project.Kind != SsdtProject)
                         continue;
 
@@ -47,7 +46,7 @@ namespace AgileSqlClub.MergeUi.VSServices
                 }
             }catch(Exception e)
             {
-                MessageBox.Show("MergeUi was unable to process the dacpacs, error: {0}", e.Message);
+                MessageBox.Show(string.Format("MergeUi was unable to process the dacpacs, error: {0}", e.Message));
             }
 
             return descriptors;

@@ -36,6 +36,12 @@ namespace AgileSqlClub.MergeUi.Extensions
             source.ExtendedProperties[DataTablePropertyNames.DataChanged] = true;
         }
 
+        public static void SetClean(this DataTable source)
+        {
+            source.ExtendedProperties[DataTablePropertyNames.DataChanged] = false;
+        }
+
+
         public static bool IsDirty(this DataTable source)
         {
             if (source.ExtendedProperties.ContainsKey(DataTablePropertyNames.DataChanged))

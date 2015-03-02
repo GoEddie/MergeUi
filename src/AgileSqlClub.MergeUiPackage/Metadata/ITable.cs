@@ -103,6 +103,7 @@ namespace AgileSqlClub.MergeUi.Metadata
                     sw.Write(outputScript);
                 }
                 
+                Data.SetClean();
             }
         }
     }
