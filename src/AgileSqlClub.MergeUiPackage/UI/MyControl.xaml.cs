@@ -7,6 +7,7 @@ using System.Windows.Input;
 using AgileSqlClub.MergeUi.DacServices;
 using AgileSqlClub.MergeUi.Merge;
 using AgileSqlClub.MergeUi.Metadata;
+using AgileSqlClub.MergeUi.PackagePlumbing;
 using AgileSqlClub.MergeUi.VSServices;
 using MessageBox = System.Windows.Forms.MessageBox;
 
@@ -74,10 +75,10 @@ namespace AgileSqlClub.MergeUi.UI
             }
             catch (Exception e)
             {
-                Dispatcher.Invoke(() =>
-                {
-                    LastStatusMessage.Text = "Error Enumerating projects: " + e.Message;
-                });
+                Dispatcher.Invoke(() => { LastStatusMessage.Text = "Error see output window"; });
+
+                OutputWindowMessage.WriteMessage("Error Enumerating projects:");
+                OutputWindowMessage.WriteMessage(e.Message);
             }
         }
 
@@ -117,10 +118,9 @@ namespace AgileSqlClub.MergeUi.UI
             }
             catch (Exception ex)
             {
-                Dispatcher.Invoke(() =>
-                {
-                    LastStatusMessage.Text = "Error Enumerating projects: " + ex.Message;
-                });
+                Dispatcher.Invoke(() => { LastStatusMessage.Text = "Error see output window "; });
+
+                OutputWindowMessage.WriteMessage("Error reading project: {0}", ex.Message);
             }
         }
 
@@ -139,12 +139,13 @@ namespace AgileSqlClub.MergeUi.UI
                 _currentSchema = _currentProject.GetSchema(schemaName);
 
                 Tables.ItemsSource = _currentSchema.GetTables();
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-                Dispatcher.Invoke(() =>
-                {
-                    LastStatusMessage.Text = "Error Enumerating projects: " + ex.Message;
-                });
+                Dispatcher.Invoke(() => { LastStatusMessage.Text = "Error see output window"; });
+
+                OutputWindowMessage.WriteMessage("Error selecting schema:");
+                OutputWindowMessage.WriteMessage(ex.Message);
             }
         }
 
@@ -171,12 +172,15 @@ namespace AgileSqlClub.MergeUi.UI
                 //TODO -= check for null and start adding a datatable when building the table (maybe need a lazy loading)
                 //we also need a repository of merge statements which is the on disk representation so we can grab those
                 //if they exist or just create a new one - then save them back and 
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-                Dispatcher.Invoke(() =>
-                {
-                    LastStatusMessage.Text = "Error Enumerating projects: " + ex.Message;
-                });
+                Dispatcher.Invoke(() => { LastStatusMessage.Text = "Error Enumerating projects: " + ex.Message; });
+
+                OutputWindowMessage.WriteMessage("Error selecting table ({0}-):",
+                    _currentTable == null ? "null" : _currentTable.Name,
+                    Tables.SelectedValue == null ? "selected = null" : Tables.SelectedValue.ToString());
+                OutputWindowMessage.WriteMessage(ex.Message);
             }
         }
 
@@ -198,12 +202,14 @@ namespace AgileSqlClub.MergeUi.UI
             try
             {
                 _solution.Save();
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-                Dispatcher.Invoke(() =>
-                {
-                    LastStatusMessage.Text = "Error Enumerating projects: " + ex.Message;
-                });
+                Dispatcher.Invoke(() => { LastStatusMessage.Text = "Error see output window"; });
+
+
+                OutputWindowMessage.WriteMessage("Error saving solution files:");
+                OutputWindowMessage.WriteMessage(ex.Message);
             }
         }
 
@@ -216,20 +222,18 @@ namespace AgileSqlClub.MergeUi.UI
             }
             try
             {
-
-
                 new Importer().GetData(_currentTable);
             }
             catch (Exception ex)
             {
-                Dispatcher.Invoke(() =>
-                {
-                    LastStatusMessage.Text = "Error Enumerating projects: " + ex.Message;
-                });
+                Dispatcher.Invoke(() => { LastStatusMessage.Text = "Error see output window"; });
+
+
+                OutputWindowMessage.WriteMessage("Error importing data (table={0}):", _currentTable.Name);
+                OutputWindowMessage.WriteMessage(ex.Message);
             }
+
             DataGrid.DataContext = _currentTable.Data.DefaultView;
-            
-            
         }
     }
 

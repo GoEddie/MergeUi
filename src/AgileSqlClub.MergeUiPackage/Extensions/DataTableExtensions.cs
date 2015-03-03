@@ -41,6 +41,25 @@ namespace AgileSqlClub.MergeUi.Extensions
             source.ExtendedProperties[DataTablePropertyNames.DataChanged] = false;
         }
 
+        public static void SetDoNotSave(this DataTable source)
+        {
+            source.ExtendedProperties[DataTablePropertyNames.DoNotSave] = true;
+        }
+
+        public static void SetCanSave(this DataTable source)
+        {
+            source.ExtendedProperties[DataTablePropertyNames.DoNotSave] = false;
+        }
+
+        public static bool CanSave(this DataTable source)
+        {
+            if (source.ExtendedProperties.ContainsKey(DataTablePropertyNames.DoNotSave))
+            {
+                return (bool)source.ExtendedProperties[DataTablePropertyNames.DoNotSave];
+            }
+
+            return false;
+        }
 
         public static bool IsDirty(this DataTable source)
         {

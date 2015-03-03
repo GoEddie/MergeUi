@@ -189,6 +189,7 @@
     <Compile Include="Metadata\ScriptType.cs" />
     <Compile Include="Metadata\Solution.cs" />
     <Compile Include="Metadata\VsSchema.cs" />
+    <Compile Include="PackagePlumbing\OutputMessages.cs" />
     <Compile Include="UI\MyControl.xaml.cs">
       <DependentUpon>MyControl.xaml</DependentUpon>
     </Compile>

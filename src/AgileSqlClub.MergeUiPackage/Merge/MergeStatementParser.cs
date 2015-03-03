@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Windows;
 using AgileSqlClub.MergeUi.Extensions;
 using AgileSqlClub.MergeUi.Metadata;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
@@ -23,14 +22,15 @@ namespace AgileSqlClub.MergeUi.Merge
             var fileContent = File.ReadAllText(filePath);
 
             var name = (_merge.MergeSpecification.Target as NamedTableReference).SchemaObject.BaseIdentifier.Value;
-            var schemaName = (_merge.MergeSpecification.Target as NamedTableReference).SchemaObject.SchemaIdentifier.Value;
+            var schemaName =
+                (_merge.MergeSpecification.Target as NamedTableReference).SchemaObject.SchemaIdentifier.Value;
             var table = project.GetTable(schemaName, name);
             table.Merge.MergeStatement = _merge;
             table.Merge.ScriptLength = _merge.FragmentLength;
             table.Merge.ScriptOffset = _merge.StartOffset;
             table.Merge.OriginalScript = fileContent.Substring(_merge.StartOffset, _merge.FragmentLength);
             table.Merge.File = filePath;
-            
+
 
             table.Data = new DataTable(table.Name);
             FillDataTableFromMerge(table);
@@ -39,18 +39,13 @@ namespace AgileSqlClub.MergeUi.Merge
 
         private void FillDataTableFromMerge(ITable table)
         {
-            bool needColumnDescriptors = true;
-
             var inlineTable = _merge.MergeSpecification.TableReference as InlineDerivedTable;
 
             if (null == inlineTable)
                 return;
 
-            if(table.Columns == null)
-                table.Columns =new List<ColumnDescriptor>();
-
-            if (table.Columns.Count > 0)
-                needColumnDescriptors = false;
+            if (table.Columns == null)
+                table.Columns = new List<ColumnDescriptor>();
 
             if (table.Data.Columns.Count <= 0)
             {
@@ -60,15 +55,12 @@ namespace AgileSqlClub.MergeUi.Merge
                 }
             }
 
+            var rowIndex = 1;
+
             foreach (var row in inlineTable.RowValues)
             {
-                if (needColumnDescriptors)
-                {
-                    MessageBox.Show("erm this is really bad");
-                }
-
                 var dataTableRow = table.Data.NewRow();
-                int index = 0;
+                var index = 0;
 
                 foreach (var columnValue in row.ColumnValues)
                 {
@@ -78,27 +70,38 @@ namespace AgileSqlClub.MergeUi.Merge
                     }
                     else
                     {
-                        dataTableRow[index++] = (columnValue as Literal).Value;    
+                        if (columnValue as Literal == null)
+                        {
+                            throw new MergeStatamentParsingException(table.Name, index+1, columnValue, rowIndex);
+                        }
+
+                        dataTableRow[index++] = (columnValue as Literal).Value;
                     }
-                    
                 }
-                
+
                 table.Data.Rows.Add(dataTableRow);
 
-                needColumnDescriptors = false;  //only need first row
+                rowIndex++;
             }
 
             table.Data.ExtendedProperties.Add(DataTablePropertyNames.DataChanged, false);
             table.Data.EnableDirtyWatcher();
-    
         }
-
     }
 
+    public class MergeStatamentParsingException : Exception
+    {
+        public MergeStatamentParsingException(string name, int ordinal, ScalarExpression columnValue, int rowIndex)
+            : base(string.Format("Could not parse column ordinal: {1} in table: {0}, row number: {3} extra info:  base type: {2}",
+                name, ordinal, columnValue.GetType(), rowIndex))
+        {
+        }
+    }
 
 
     public static class DataTablePropertyNames
     {
         public const string DataChanged = "DataChanged";
+        public const string DoNotSave = "DoNotSave";
     }
 }
