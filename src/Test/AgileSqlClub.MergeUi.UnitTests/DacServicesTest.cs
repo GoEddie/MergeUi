@@ -9,7 +9,7 @@ using Microsoft.SqlServer.Dac.Model;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using NUnit.Framework;
 
-namespace AgileSqlClub.MergeUi.UnitTests
+namespace AgileSqlClub.MergeUI.UnitTests
 {
     [TestFixture]
     class DacServicesTests

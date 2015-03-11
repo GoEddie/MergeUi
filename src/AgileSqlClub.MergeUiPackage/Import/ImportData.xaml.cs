@@ -12,11 +12,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using AgileSqlClub.MergeUi.Extensions;
-using AgileSqlClub.MergeUi.Metadata;
+using AgileSqlClub.MergeUI.Extensions;
+using AgileSqlClub.MergeUI.Metadata;
 using MahApps.Metro.Controls;
 
-namespace AgileSqlClub.MergeUi.Import
+namespace AgileSqlClub.MergeUI.Import
 {
     /// <summary>
     /// Interaction logic for ImportData.xaml

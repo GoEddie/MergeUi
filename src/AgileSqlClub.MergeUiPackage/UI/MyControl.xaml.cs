@@ -4,15 +4,20 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using AgileSqlClub.MergeUi.DacServices;
-using AgileSqlClub.MergeUi.Merge;
-using AgileSqlClub.MergeUi.Metadata;
-using AgileSqlClub.MergeUi.PackagePlumbing;
-using AgileSqlClub.MergeUi.VSServices;
+using AgileSqlClub.MergeUI.DacServices;
+using AgileSqlClub.MergeUI.Merge;
+using AgileSqlClub.MergeUI.Metadata;
+using AgileSqlClub.MergeUI.PackagePlumbing;
+using AgileSqlClub.MergeUI.VSServices;
 using MessageBox = System.Windows.Forms.MessageBox;
 
-namespace AgileSqlClub.MergeUi.UI
+namespace AgileSqlClub.MergeUI.UI
 {
+    public static class DebugLogging
+    {
+        public static bool Enable;
+    }
+
     public partial class MyControl : UserControl, IStatus
     {
         private bool _currentDataGridDirty;
@@ -40,6 +45,8 @@ namespace AgileSqlClub.MergeUi.UI
 
         private void DoRefresh()
         {
+
+            Dispatcher.Invoke(() => { DebugLogging.Enable = Logging.IsChecked.Value; });
             try
             {
                 if (_currentDataGridDirty)
@@ -109,7 +116,7 @@ namespace AgileSqlClub.MergeUi.UI
                     string.IsNullOrEmpty(_currentProject.GetScript(ScriptType.PostDeploy)))
                 {
                     MessageBox.Show(
-                        "The project needs a post deploy script - add one anywhere in the project and refresh");
+                        "The project needs a post deploy script - add one anywhere in the project and refresh", "MergeUI");
                     return;
                 }
 
@@ -206,8 +213,7 @@ namespace AgileSqlClub.MergeUi.UI
             catch (Exception ex)
             {
                 Dispatcher.Invoke(() => { LastStatusMessage.Text = "Error see output window"; });
-
-
+                
                 OutputWindowMessage.WriteMessage("Error saving solution files:");
                 OutputWindowMessage.WriteMessage(ex.Message);
             }
@@ -217,7 +223,7 @@ namespace AgileSqlClub.MergeUi.UI
         {
             if (_currentTable == null)
             {
-                MessageBox.Show("Please choose a table in the drop down list");
+                MessageBox.Show("Please choose a table in the drop down list", "MergeUI");
                 return;
             }
             try

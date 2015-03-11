@@ -14,9 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using AgileSqlClub.MergeUi.Metadata;
+using AgileSqlClub.MergeUI.Metadata;
 
-namespace AgileSqlClub.MergeUi.Import
+namespace AgileSqlClub.MergeUI.Import
 {
     /// <summary>
     /// Interaction logic for ImportShowData.xaml
@@ -63,7 +63,7 @@ namespace AgileSqlClub.MergeUi.Import
             }
             catch (Exception e)
             {
-                this.Dispatcher.Invoke(() => MessageBox.Show("Error importing data: " + e.Message));
+                this.Dispatcher.Invoke(() => MessageBox.Show("Error importing data: " + e.Message, "MergeUI"));
             }
         }
 

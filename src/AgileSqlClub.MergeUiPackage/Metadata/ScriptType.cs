@@ -1,4 +1,4 @@
-﻿namespace AgileSqlClub.MergeUi.Metadata
+﻿namespace AgileSqlClub.MergeUI.Metadata
 {
     public enum ScriptType
     {

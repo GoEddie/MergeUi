@@ -4,9 +4,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgileSqlClub.MergeUi.Merge;
+using AgileSqlClub.MergeUI.Merge;
 
-namespace AgileSqlClub.MergeUi.Extensions
+namespace AgileSqlClub.MergeUI.Extensions
 {
     public static class DataTableExtensions
     {

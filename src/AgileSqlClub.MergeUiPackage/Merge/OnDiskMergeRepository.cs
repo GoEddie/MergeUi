@@ -5,10 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgileSqlClub.MergeUi.DacServices;
-using AgileSqlClub.MergeUi.Metadata;
+using AgileSqlClub.MergeUI.PackagePlumbing;
+using AgileSqlClub.MergeUI.DacServices;
+using AgileSqlClub.MergeUI.Metadata;
+using System.Windows.Forms;
 
-namespace AgileSqlClub.MergeUi.Merge
+namespace AgileSqlClub.MergeUI.Merge
 {
     public enum DataTableSource
     {
@@ -31,6 +33,11 @@ namespace AgileSqlClub.MergeUi.Merge
             _project = project;
 
             BuildScriptGateways();
+        }
+
+        public bool CanSave()
+        {
+            return _scriptGateways.All(sg => sg.Value.CanSave());
         }
 
         private void BuildScriptGateways()
@@ -56,6 +63,12 @@ namespace AgileSqlClub.MergeUi.Merge
             {
                 scriptGateway.UpdateData();
             }
+
+            //if (!CanSave())
+            //{
+            //    MessageBox.Show(
+            //        "Errors in the post-dpeloy script, fix them before editing anything. You won't be able to save but can view the data we have read.\r\n\n\nFor further info, enable debugging logging and refresh", "MergeUI");
+            //}
         }
 
     }
@@ -67,6 +80,9 @@ namespace AgileSqlClub.MergeUi.Merge
         private readonly List<ITable> _tables = new List<ITable>();
         private DateTime _lastScriptSaveTime = DateTime.MinValue;
 
+        private bool _doNotSave = false;
+
+
         public ScriptFileGateway(VsProject project, string path)
         {
             _project = project;
@@ -74,8 +90,19 @@ namespace AgileSqlClub.MergeUi.Merge
             
         }
 
+        public bool CanSave()
+        {
+            return !_doNotSave;
+        }
+
         public void UpdateData()
         {
+            if (_doNotSave)
+            {
+                MessageBox.Show(string.Format("Unable to save changes to: \"{0}\" as it contained errors, correct these, click refresh then try again", _path), "MergeUI");
+                return;
+            }
+
             if (!FileHasChanged())
                 return;
 
@@ -86,11 +113,15 @@ namespace AgileSqlClub.MergeUi.Merge
         
         private void GetTables()
         {
-            var tables = new ScriptParser(_path, _project).GetDataTables();
+            var parser = new ScriptParser(_path, _project);
+            var tables = parser.GetDataTables();
+            
             foreach (var table in tables)
-            {
+            {                
                 _project.AddTable(table.SchemaName, table);
             }
+
+            _doNotSave = parser.ContainsErrors;
         }
 
         private bool FileHasChanged()

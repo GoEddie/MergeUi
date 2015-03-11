@@ -1,12 +1,12 @@
 ﻿// PkgCmdID.cs
 // MUST match PkgCmdID.h
 
-namespace AgileSqlClub.MergeUi
+namespace AgileSqlClub.MergeUI
 {
     static class PkgCmdIDList
     {
 
-        public const uint cmdidMergeUiToolWindow =    0x101;
+        public const uint cmdidMergeUIToolWindow =    0x101;
 
     };
 }

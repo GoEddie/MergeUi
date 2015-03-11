@@ -25,7 +25,7 @@
 
   <!--The Commands section is where we the commands, menus and menu groups are defined.
       This section uses a Guid to identify the package that provides the command defined inside it. -->
-  <Commands package="MergeUiPackagePkg">
+  <Commands package="MergeUIPackagePkg">
     <!-- Inside this section we have different sub-sections: one for the menus, another  
     for the menu groups, one for the buttons (the actual commands), one for the combos 
     and the last one for the bitmaps used. Each element is identified by a command id that  
@@ -57,7 +57,7 @@
           If you do not want an image next to your command, remove the Icon node /> -->
 
 
-      <Button guid="MergeUiPackageCmdSet" id="cmdidMergeUiToolWindow" priority="0x0100" type="Button">
+      <Button guid="MergeUIPackageCmdSet" id="cmdidMergeUIToolWindow" priority="0x0100" type="Button">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
@@ -87,13 +87,13 @@
 
   <Symbols>
     <!-- This is the package guid. -->
-    <GuidSymbol name="MergeUiPackagePkg" value="{78b76b0b-9e06-4f24-b20b-8a56ee968feb}" />
+    <GuidSymbol name="MergeUIPackagePkg" value="{78b76b0b-9e06-4f24-b20b-8a56ee968feb}" />
     
     <!-- This is the guid used to group the menu commands together -->
-    <GuidSymbol name="MergeUiPackageCmdSet" value="{a97f3a02-b603-4583-a658-32f998e5a267}">
+    <GuidSymbol name="MergeUIPackageCmdSet" value="{a97f3a02-b603-4583-a658-32f998e5a267}">
 
       <IDSymbol name="MyMenuGroup" value="0x1020" />
-      <IDSymbol name="cmdidMergeUiToolWindow" value="0x0101" />
+      <IDSymbol name="cmdidMergeUIToolWindow" value="0x0101" />
     </GuidSymbol>
     
     

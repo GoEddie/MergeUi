@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using AgileSqlClub.MergeUi.DacServices;
-using AgileSqlClub.MergeUi.Merge;
+using System.Windows.Forms;
+using AgileSqlClub.MergeUI.DacServices;
+using AgileSqlClub.MergeUI.Merge;
 using Microsoft.Internal.VisualStudio.PlatformUI;
 
-namespace AgileSqlClub.MergeUi.Metadata
+namespace AgileSqlClub.MergeUI.Metadata
 {
     public class VsProject
     {
@@ -29,6 +30,8 @@ namespace AgileSqlClub.MergeUi.Metadata
             _name = name;
             _lastBuildTime = lastBuildTime;
         }
+
+
 
         private void AddSchemas(List<ITable> tables)
         {
@@ -88,6 +91,13 @@ namespace AgileSqlClub.MergeUi.Metadata
 
         public void Save()
         {
+            if (!_mergeRepository.CanSave())
+            {
+                MessageBox.Show(
+                    "The original script file has an error, you need to fix that and reload before saving any updates to it - if that is a real pain, create a new post-deploy script and reload to use that", "MergeUI");
+                return;
+            }
+
             foreach (var schema in _schemas.Values)
             {
                 schema.Save(_postDeployScript);

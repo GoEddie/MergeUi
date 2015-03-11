@@ -1,6 +1,6 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
-namespace AgileSqlClub.MergeUi.Merge
+namespace AgileSqlClub.MergeUI.Merge
 {
     public class ColumnDescriptor
     {

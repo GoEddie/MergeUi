@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using AgileSqlClub.MergeUi.Extensions;
-using AgileSqlClub.MergeUi.Merge;
+using AgileSqlClub.MergeUI.Extensions;
+using AgileSqlClub.MergeUI.Merge;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
+using AgileSqlClub.MergeUI.UI;
+using AgileSqlClub.MergeUI.PackagePlumbing;
 
-namespace AgileSqlClub.MergeUi.Metadata
+namespace AgileSqlClub.MergeUI.Metadata
 {
     public interface ITable
     {
@@ -63,6 +65,12 @@ namespace AgileSqlClub.MergeUi.Metadata
         {
             if (Data != null && Data.IsDirty())
             {
+
+                if (DebugLogging.Enable)
+                {
+                    OutputWindowMessage.WriteMessage("Table: Saving change to table: \"{0}\" to scriptfile: \"{1}\"", Name, scriptFile );
+                }
+
                 //if detils of Merge.Blah are filled in then update the current Merge.MergeStatement with the new datatable and then get the script and overwrite the existing script..
                 //if it is not filled in, we need to create a new one and build a new merge 
                 Data.AcceptChanges();

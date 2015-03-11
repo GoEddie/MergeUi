@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.SqlServer.Dac.Model;
 
-namespace AgileSqlClub.MergeUi.Extensions
+namespace AgileSqlClub.MergeUI.Extensions
 {
     public static class ObjectIdentifierExtensions
     {

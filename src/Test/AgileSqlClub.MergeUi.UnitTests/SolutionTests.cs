@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgileSqlClub.MergeUi.DacServices;
-using AgileSqlClub.MergeUi.Metadata;
-using AgileSqlClub.MergeUi.UI;
-using AgileSqlClub.MergeUi.VSServices;
+using AgileSqlClub.MergeUI.DacServices;
+using AgileSqlClub.MergeUI.Metadata;
+using AgileSqlClub.MergeUI.UI;
+using AgileSqlClub.MergeUI.VSServices;
 using Moq;
 using NUnit.Framework;
 
-namespace AgileSqlClub.MergeUi.UnitTests
+namespace AgileSqlClub.MergeUI.UnitTests
 {
     [TestFixture]
     class SolutionTests

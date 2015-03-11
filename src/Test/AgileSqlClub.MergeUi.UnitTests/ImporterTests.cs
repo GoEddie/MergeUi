@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace AgileSqlClub.MergeUi.UnitTests
+namespace AgileSqlClub.MergeUI.UnitTests
 {
     
 }

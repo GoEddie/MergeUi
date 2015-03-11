@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using AgileSqlClub.MergeUi.DacServices;
-using AgileSqlClub.MergeUi.Merge;
-using AgileSqlClub.MergeUi.UI;
-using AgileSqlClub.MergeUi.VSServices;
+using AgileSqlClub.MergeUI.DacServices;
+using AgileSqlClub.MergeUI.Merge;
+using AgileSqlClub.MergeUI.UI;
+using AgileSqlClub.MergeUI.VSServices;
+using AgileSqlClub.MergeUI.PackagePlumbing;
 
-namespace AgileSqlClub.MergeUi.Metadata
+namespace AgileSqlClub.MergeUI.Metadata
 {
     public class Solution : ISolution
     {
@@ -22,12 +23,23 @@ namespace AgileSqlClub.MergeUi.Metadata
             var projects = projectEnumerator.EnumerateProjects();
             
             int count = 1;
+            if (DebugLogging.Enable)
+            {
+                OutputWindowMessage.WriteMessage("Solution: Found {0} projects", projects.Count);
+            }
+
             foreach (var project in projects)
             {
                 statusDisplay.SetStatus(string.Format("Enumerating project {0} or {1}", count++, projects.Count));
 
                 if (!File.Exists(project.DacPath))
+                {
+                    if (DebugLogging.Enable)
+                    {
+                        OutputWindowMessage.WriteMessage("Solution: Did not find dacpac for project - path: {0}", project.DacPath);
+                    }
                     continue;
+                }
 
                 var dac = dacParserBuilder.Build(project.DacPath);
                 
@@ -37,6 +49,11 @@ namespace AgileSqlClub.MergeUi.Metadata
 
             stopwatch.Stop();
             statusDisplay.SetStatus(string.Format("Complete...Process took {0} seconds", stopwatch.ElapsedMilliseconds / 1000));
+
+            if (DebugLogging.Enable)
+            {
+                OutputWindowMessage.WriteMessage("Solution: Enumerate Complete...Process took {0} seconds", stopwatch.ElapsedMilliseconds / 1000);
+            }
         }
         
         public VsProject GetProject(string name)

@@ -4,9 +4,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgileSqlClub.MergeUi.Extensions;
+using AgileSqlClub.MergeUI.Extensions;
 
-namespace AgileSqlClub.MergeUi.Merge
+namespace AgileSqlClub.MergeUI.Merge
 {
     public class DataTableBuilder
     {

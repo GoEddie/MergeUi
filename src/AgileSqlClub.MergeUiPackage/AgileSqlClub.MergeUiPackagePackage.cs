@@ -4,13 +4,13 @@ using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using AgileSqlClub.MergeUi.UI;
+using AgileSqlClub.MergeUI.UI;
 using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace AgileSqlClub.MergeUi
+namespace AgileSqlClub.MergeUI
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -32,8 +32,8 @@ namespace AgileSqlClub.MergeUi
     [ProvideMenuResource("Menus.ctmenu", 1)]
     // This attribute registers a tool window exposed by this package.
     [ProvideToolWindow(typeof(MyToolWindow))]
-    [Guid(GuidList.guidMergeUiPkgString)]
-    public sealed class MergeUiPackage : Package, IPackage
+    [Guid(GuidList.guidMergeUIPkgString)]
+    public sealed class MergeUIPackage : Package, IPackage
     {
         /// <summary>
         /// Default constructor of the package.
@@ -42,7 +42,7 @@ namespace AgileSqlClub.MergeUi
         /// not sited yet inside Visual Studio environment. The place to do all the other 
         /// initialization is the Initialize method.
         /// </summary>
-        public MergeUiPackage()
+        public MergeUIPackage()
         {
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
         }
@@ -85,7 +85,7 @@ namespace AgileSqlClub.MergeUi
             if ( null != mcs )
             {
                 // Create the command for the tool window
-                CommandID toolwndCommandID = new CommandID(GuidList.MergeUiPackageCmdSet, (int)PkgCmdIDList.cmdidMergeUiToolWindow);
+                CommandID toolwndCommandID = new CommandID(GuidList.MergeUIPackageCmdSet, (int)PkgCmdIDList.cmdidMergeUIToolWindow);
                 MenuCommand menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
                 mcs.AddCommand( menuToolWin );
             }

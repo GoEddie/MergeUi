@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AgileSqlClub.MergeUi.Metadata
+namespace AgileSqlClub.MergeUI.Metadata
 {
     public interface ISolution
     {

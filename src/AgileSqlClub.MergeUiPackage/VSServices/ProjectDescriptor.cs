@@ -1,4 +1,4 @@
-﻿namespace AgileSqlClub.MergeUi.VSServices
+﻿namespace AgileSqlClub.MergeUI.VSServices
 {
     public class ProjectDescriptor
     {

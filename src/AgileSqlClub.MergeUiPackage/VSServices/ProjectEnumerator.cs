@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using AgileSqlClub.MergeUi.Metadata;
+using AgileSqlClub.MergeUI.VSServices;
+using AgileSqlClub.MergeUI.PackagePlumbing;
+using AgileSqlClub.MergeUI.UI;
 using EnvDTE;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace AgileSqlClub.MergeUi.VSServices
+namespace AgileSqlClub.MergeUI.VSServices
 {
     public class ProjectEnumerator
     {
@@ -22,31 +22,51 @@ namespace AgileSqlClub.MergeUi.VSServices
 
             try
             {
-                var dte = MergeUiPackage.GetGlobalService(typeof (SDTE)) as DTE;
+                var dte = Package.GetGlobalService(typeof (SDTE)) as DTE;
 
                 if (dte == null || dte.Solution == null || dte.Solution.Projects == null)
+                {
+                    if (DebugLogging.Enable)
+                    {
+                        OutputWindowMessage.WriteMessage(
+                            "Project Enumerator: Dte was null or Solution.Projects was null");
+                    }
+
                     return descriptors;
-                
-                for (int i = 1; i <= dte.Solution.Projects.Count; i++)
+                }
+                for (var i = 1; i <= dte.Solution.Projects.Count; i++)
                 {
                     var project = dte.Solution.Projects.Item(i);
                     if (project.Kind != SsdtProject)
+                    {
+                        if (DebugLogging.Enable)
+                        {
+                            OutputWindowMessage.WriteMessage("Project Enumerator: Project was not a SSDT project: {0}",
+                                project.UniqueName);
+                        }
                         continue;
-
+                    }
                     var dacpac = FindDacpacPath(project);
                     var preDeployScript = FindPreDeployScriptPath(project);
                     var postDeployScript = FindPostDeployScriptPath(project);
-                    descriptors.Add(new ProjectDescriptor()
+                    descriptors.Add(new ProjectDescriptor
                     {
                         Name = project.UniqueName,
                         DacPath = dacpac,
                         PreDeployScriptPath = preDeployScript,
                         PostDeployScriptPath = postDeployScript
                     });
+
+                    if (DebugLogging.Enable)
+                    {
+                        OutputWindowMessage.WriteMessage("Project Enumerator: Added Project: {0}", project.UniqueName);
+                    }
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
-                MessageBox.Show(string.Format("MergeUi was unable to process the dacpacs, error: {0}", e.Message));
+                MessageBox.Show(string.Format("MergeUI was unable to process the dacpacs, error: {0}", e.Message),
+                    "MergeUI");
             }
 
             return descriptors;
@@ -62,12 +82,12 @@ namespace AgileSqlClub.MergeUi.VSServices
             return GetFilesWithBuildAction("PostDeploy", project).FirstOrDefault();
         }
 
-
         private string FindDacpacPath(Project project)
         {
-            
             var outputFolders = new HashSet<string>();
-            var builtGroup = project.ConfigurationManager.ActiveConfiguration.OutputGroups.OfType<EnvDTE.OutputGroup>().First(x => x.CanonicalName == "Built");
+            var builtGroup =
+                project.ConfigurationManager.ActiveConfiguration.OutputGroups.OfType<OutputGroup>()
+                    .First(x => x.CanonicalName == "Built");
 
             try
             {
@@ -79,7 +99,7 @@ namespace AgileSqlClub.MergeUi.VSServices
                 return null;
             }
 
-            foreach (var strUri in ((object[])builtGroup.FileURLs).OfType<string>())
+            foreach (var strUri in ((object[]) builtGroup.FileURLs).OfType<string>())
             {
                 var uri = new Uri(strUri, UriKind.Absolute);
                 var filePath = uri.LocalPath;
@@ -93,7 +113,6 @@ namespace AgileSqlClub.MergeUi.VSServices
 
         public List<string> GetFilesWithBuildAction(string property, Project project)
         {
-            
             if (project == null)
                 return null;
 
@@ -132,10 +151,9 @@ namespace AgileSqlClub.MergeUi.VSServices
                     if (isMatch)
                         foundItems.Add(fullPath);
                 }
-
             }
 
             return foundItems;
-        } 
+        }
     }
 }

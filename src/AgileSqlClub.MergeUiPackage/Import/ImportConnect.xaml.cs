@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AgileSqlClub.MergeUi.Import
+namespace AgileSqlClub.MergeUI.Import
 {
     /// <summary>
     /// Interaction logic for ImportConnect.xaml
@@ -94,7 +94,7 @@ namespace AgileSqlClub.MergeUi.Import
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    MessageBox.Show("Error - unable to get database list, error: " + e.Message);
+                    MessageBox.Show("Error - unable to get database list, error: " + e.Message, "MergeUI");
                 });
             }
 

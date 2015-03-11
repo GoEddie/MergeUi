@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="AgileSqlClub.MergeUi.UI.MyControl"
+﻿<UserControl x:Class="AgileSqlClub.MergeUI.UI.MyControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -36,7 +36,8 @@
                 
                     <DataGrid x:Name="DataGrid" Grid.Row="0" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" ItemsSource="{Binding}" RowEditEnding="DataGrid_OnRowEditEnding"> </DataGrid>
 
-                    <Button HorizontalAlignment="Right" Grid.Row="1" Content="Save" Height="25" MinWidth="65" Margin="10, 10, 10, 10" Click="button1_Save"/>
+                    <CheckBox HorizontalAlignment="Left" Grid.Row="1" Background="WhiteSmoke" Content="Debug Logging" Height="25" MinWidth="65" Margin="10, 10, 10, 10" x:Name="Logging"/>
+                    <Button HorizontalAlignment="Right"  Grid.Row="1" Content="Save" Height="25" MinWidth="65" Margin="10, 10, 10, 10" Click="button1_Save"/>
                     
 
                 </Grid>

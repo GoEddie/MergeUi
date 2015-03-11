@@ -1,6 +1,6 @@
 ﻿using Microsoft.SqlServer.TransactSql.ScriptDom;
 
-namespace AgileSqlClub.MergeUi.Extensions
+namespace AgileSqlClub.MergeUI.Extensions
 {
     public static class IdentifierExtensionMethods
     {
