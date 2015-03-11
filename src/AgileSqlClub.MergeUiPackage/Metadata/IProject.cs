@@ -94,7 +94,7 @@ namespace AgileSqlClub.MergeUI.Metadata
             if (!_mergeRepository.CanSave())
             {
                 MessageBox.Show(
-                    "The original script file has an error, you need to fix that and reload before saving any updates to it - if that is a real pain, create a new post-deploy script and reload to use that", "MergeUI");
+                    "A script file had an error, you need to fix that and reload before saving any updates to it - if that is a real pain, create a new post-deploy script and reload to use that", "MergeUI");
                 return;
             }
 

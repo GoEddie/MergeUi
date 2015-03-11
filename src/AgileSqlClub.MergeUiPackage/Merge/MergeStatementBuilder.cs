@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgileSqlClub.MergeUI.Extensions;
+using AgileSqlClub.MergeUI.PackagePlumbing;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace AgileSqlClub.MergeUI.Merge
@@ -223,15 +224,32 @@ namespace AgileSqlClub.MergeUI.Merge
                 return;
             }
 
+            if (_keyColumns.Count == 0)
+            {
+                OutputWindowMessage.WriteMessage("The table: {0} does not contain a primary key so it isn't possible to work out what the columns the merge should check.",
+                    _targetTableName);
+
+                CreateSearchConditionForTableWithNoKeys((specification.SearchCondition = new BooleanComparisonExpression()) as BooleanComparisonExpression);
+                return;
+            }
+
             CreateSearchCondition(_keyColumns[0], (specification.SearchCondition = new BooleanComparisonExpression()) as BooleanComparisonExpression);
+        }
+
+        private BooleanComparisonExpression CreateSearchConditionForTableWithNoKeys(BooleanComparisonExpression condition)
+        {
+            condition.ComparisonType = BooleanComparisonType.Equals;
+            condition.FirstExpression = new ScalarExpressionSnippet { Script = string.Format("{0}.{1}", MergeIdentifierStrings.SourceName, "[???]") };
+            condition.SecondExpression = new ScalarExpressionSnippet { Script = string.Format("{0}.{1}", MergeIdentifierStrings.TargetName, "[???]") };
+            return condition;
         }
 
         private BooleanComparisonExpression CreateSearchCondition(string keyColumn, BooleanComparisonExpression condition)
         {
 
             condition.ComparisonType = BooleanComparisonType.Equals;
-            condition.FirstExpression = new ScalarExpressionSnippet { Script = string.Format("{0}.{1}", MergeIdentifierStrings.SourceName, keyColumn) };
-            condition.SecondExpression = new ScalarExpressionSnippet { Script = string.Format("{0}.{1}", MergeIdentifierStrings.TargetName, keyColumn) };
+            condition.FirstExpression = new ScalarExpressionSnippet { Script = string.Format("{0}.[{1}]", MergeIdentifierStrings.SourceName, keyColumn) };
+            condition.SecondExpression = new ScalarExpressionSnippet { Script = string.Format("{0}.[{1}]", MergeIdentifierStrings.TargetName, keyColumn) };
             return condition;
         }
 
