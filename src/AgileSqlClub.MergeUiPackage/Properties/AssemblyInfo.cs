@@ -29,6 +29,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("0.1.1.0")]
-[assembly: AssemblyFileVersion("0.1.1.0")]
+[assembly: AssemblyVersion("0.1.4.0")]
+[assembly: AssemblyFileVersion("0.1.4.0")]
 [assembly: InternalsVisibleTo("AgileSqlClub.MergeUI.UnitTests,PublicKey=0024000004800000940000000602000000240000525341310004000001000100634c1834548de6cef9d53810640bc54df573845f23b7d4fa7ce4be5c9a03cc3b9cf81f28311e84663d56d01e0796830cc66822515c272544b15d37c3786e50b336024c62ca26999f7ea297dda9be6740b68d5a012cc71f4cddfa3529cbd1c1583e77b94ea8f7a4c4765e59af205d88c4c94045aea779c077d1661c67450a43bb")]

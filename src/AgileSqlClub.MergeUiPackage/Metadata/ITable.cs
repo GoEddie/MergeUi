@@ -112,6 +112,12 @@ namespace AgileSqlClub.MergeUI.Metadata
                 }
                 
                 Data.SetClean();
+
+                if (DebugLogging.Enable)
+                {
+                    OutputWindowMessage.WriteMessage("Table: Saving change to table: \"{0}\" to scriptfile: \"{1}\" Completed", Name, scriptFile);
+                }
+
             }
         }
     }

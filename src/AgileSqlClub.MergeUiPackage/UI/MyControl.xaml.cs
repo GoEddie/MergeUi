@@ -241,6 +241,11 @@ namespace AgileSqlClub.MergeUI.UI
 
             DataGrid.DataContext = _currentTable.Data.DefaultView;
         }
+
+        private void Logging_OnChecked(object sender, RoutedEventArgs e)
+        {
+            DebugLogging.Enable = Logging.IsChecked.Value;
+        }
     }
 
     public interface IStatus

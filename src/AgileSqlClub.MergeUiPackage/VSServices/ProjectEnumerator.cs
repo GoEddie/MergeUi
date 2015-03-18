@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using AgileSqlClub.MergeUI.VSServices;
-using AgileSqlClub.MergeUI.PackagePlumbing;
-using AgileSqlClub.MergeUI.UI;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -16,6 +13,35 @@ namespace AgileSqlClub.MergeUI.VSServices
         private const string SsdtProject = "{00d1a9c2-b5f0-4af3-8072-f6c62b433612}";
         private const string DacpacExtension = ".dacpac";
 
+        private List<ProjectDescriptor> GetSubProjects(Project project)
+        {
+            var descriptors = new List<ProjectDescriptor>();
+
+            if (project.Kind == SsdtProject)
+            {
+                var dacpac = FindDacpacPath(project);
+                var preDeployScript = FindPreDeployScriptPath(project);
+                var postDeployScript = FindPostDeployScriptPath(project);
+                descriptors.Add(new ProjectDescriptor
+                {
+                    Name = project.UniqueName,
+                    DacPath = dacpac,
+                    PreDeployScriptPath = preDeployScript,
+                    PostDeployScriptPath = postDeployScript
+                });
+            }
+            else
+            {
+                for (var i = 1; i <= project.ProjectItems.Count; i++)
+                {
+                    if (project.ProjectItems.Item(i).SubProject != null)
+                        descriptors.AddRange(GetSubProjects(project.ProjectItems.Item(i).SubProject));
+                }
+            }
+
+            return descriptors;
+        }
+
         public virtual List<ProjectDescriptor> EnumerateProjects()
         {
             var descriptors = new List<ProjectDescriptor>();
@@ -23,44 +49,9 @@ namespace AgileSqlClub.MergeUI.VSServices
             try
             {
                 var dte = Package.GetGlobalService(typeof (SDTE)) as DTE;
-
-                if (dte == null || dte.Solution == null || dte.Solution.Projects == null)
-                {
-                    if (DebugLogging.Enable)
-                    {
-                        OutputWindowMessage.WriteMessage(
-                            "Project Enumerator: Dte was null or Solution.Projects was null");
-                    }
-
-                    return descriptors;
-                }
                 for (var i = 1; i <= dte.Solution.Projects.Count; i++)
                 {
-                    var project = dte.Solution.Projects.Item(i);
-                    if (project.Kind != SsdtProject)
-                    {
-                        if (DebugLogging.Enable)
-                        {
-                            OutputWindowMessage.WriteMessage("Project Enumerator: Project was not a SSDT project: {0}",
-                                project.UniqueName);
-                        }
-                        continue;
-                    }
-                    var dacpac = FindDacpacPath(project);
-                    var preDeployScript = FindPreDeployScriptPath(project);
-                    var postDeployScript = FindPostDeployScriptPath(project);
-                    descriptors.Add(new ProjectDescriptor
-                    {
-                        Name = project.UniqueName,
-                        DacPath = dacpac,
-                        PreDeployScriptPath = preDeployScript,
-                        PostDeployScriptPath = postDeployScript
-                    });
-
-                    if (DebugLogging.Enable)
-                    {
-                        OutputWindowMessage.WriteMessage("Project Enumerator: Added Project: {0}", project.UniqueName);
-                    }
+                    descriptors.AddRange(GetSubProjects(dte.Solution.Projects.Item(i)));
                 }
             }
             catch (Exception e)

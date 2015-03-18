@@ -36,7 +36,7 @@
                 
                     <DataGrid x:Name="DataGrid" Grid.Row="0" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" ItemsSource="{Binding}" RowEditEnding="DataGrid_OnRowEditEnding"> </DataGrid>
 
-                    <CheckBox HorizontalAlignment="Left" Grid.Row="1" Background="WhiteSmoke" Content="Debug Logging" Height="25" MinWidth="65" Margin="10, 10, 10, 10" x:Name="Logging"/>
+                    <CheckBox HorizontalAlignment="Left" Grid.Row="1" Background="WhiteSmoke" Content="Debug Logging" Height="25" MinWidth="65" Margin="10, 10, 10, 10" x:Name="Logging" Checked="Logging_OnChecked"/>
                     <Button HorizontalAlignment="Right"  Grid.Row="1" Content="Save" Height="25" MinWidth="65" Margin="10, 10, 10, 10" Click="button1_Save"/>
                     
 
