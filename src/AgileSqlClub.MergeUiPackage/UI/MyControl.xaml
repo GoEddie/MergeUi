@@ -12,7 +12,7 @@
         <WrapPanel Orientation="Horizontal">
             <StackPanel HorizontalAlignment="Stretch">
                 <WrapPanel HorizontalAlignment="Stretch">
-                    <ComboBox x:Name="Projects" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" HorizontalContentAlignment="Stretch" MinWidth="400"  Height="25" Margin="10, 10, 10, 10" SelectionChanged="Projects_OnSelectionChanged"></ComboBox>
+                        <ComboBox x:Name="Projects" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" HorizontalContentAlignment="Stretch" MinWidth="400"  Height="25" Margin="10, 10, 10, 10" SelectionChanged="Projects_OnSelectionChanged" Text="Choose a project"></ComboBox>
                     <Button HorizontalAlignment="Right" Content="Refresh" Height="25" MinWidth="65" Margin="10, 10, 10, 10" Click="button1_Click" x:Name="RefreshButton"/>
                     
                 </WrapPanel>

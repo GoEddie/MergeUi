@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="AgileSqlClub.MergeUI.UI.MergeUi"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"               
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             Name="dsds">
+   
+    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="15"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="70"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="250"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="250"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="250"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="250"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Button Grid.Row="0">Populate</Button>
+        
+        <ComboBox Grid.Row="0" Grid.Column="2" MaxHeight="20">
+            
+        </ComboBox>
+        
+        <ComboBox Grid.Row="0" Grid.Column="4" MaxHeight="20">
+            <ComboBoxItem>sssss</ComboBoxItem>
+        </ComboBox>
+        
+        <ComboBox Grid.Row="0" Grid.Column="6" MaxHeight="20">
+            <ComboBoxItem>sssss</ComboBoxItem>
+        </ComboBox>
+        
+        <Button IsEnabled="False" Grid.Row="0" Grid.Column="8" HorizontalAlignment="Left">Import From Live Database</Button>
+        <DataGrid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="5" MinHeight="300"></DataGrid>
+        <Button x:Name="Save" Grid.Row="1" Grid.Column="9" VerticalAlignment="Bottom" HorizontalAlignment="Left" MinWidth="50">Save</Button>
+        <TextBlock x:Name="StatusLabel" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="9">Status:</TextBlock>
+  </Grid>
+        </ScrollViewer>
+</UserControl>
