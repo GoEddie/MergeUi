@@ -57,6 +57,10 @@ namespace AgileSqlClub.MergeUI.Merge
                 {
                     try
                     {
+                        if (DebugLogging.Enable)
+                        {
+                            DumpMergeText(merge);
+                        }
                         tables.Add(new MergeStatementParser(merge).GetDescriptor(_path, _project));
                     }
                     catch (MergeStatamentParsingException msp)
@@ -72,6 +76,13 @@ namespace AgileSqlClub.MergeUI.Merge
             }
 
             return tables;
+        }
+
+        private void DumpMergeText(MergeStatement merge)
+        {
+            //
+            var script = merge.GetScript();
+            OutputWindowMessage.WriteMessage("Script Parser: About to Parse Script: \r\n======================================\r\n{0}\r\n======================================\r\n", script);
         }
     }
 }

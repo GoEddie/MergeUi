@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileSqlClub.MergeUiPackage", "AgileSqlClub.MergeUiPackage\AgileSqlClub.MergeUiPackage.csproj", "{1431BE12-87A3-4CE1-8873-D8C77F901706}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{C79EE8BC-FAE4-4E60-A9EE-C6E02C998B1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileSqlClub.MergeUiPackage", "AgileSqlClub.MergeUiPackage\AgileSqlClub.MergeUiPackage.csproj", "{1431BE12-87A3-4CE1-8873-D8C77F901706}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileSqlClub.MergeUi.UnitTests", "Test\AgileSqlClub.MergeUi.UnitTests\AgileSqlClub.MergeUi.UnitTests.csproj", "{B2C31EB7-E32D-40CD-9F4C-F74C68D62BB9}"
 EndProject

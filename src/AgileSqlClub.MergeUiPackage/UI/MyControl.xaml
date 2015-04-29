@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     
              mc:Ignorable="d"
-             d:DesignHeight="3090" d:DesignWidth="3000" MinHeight="350" MinWidth="350"
+             d:DesignHeight="3090" d:DesignWidth="7000" MinHeight="350" MinWidth="350"
              Name="MyToolWindow" >
     <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
     <Grid>
@@ -28,7 +28,7 @@
                     <TextBlock x:Name="LastStatusMessage" Background="WhiteSmoke" HorizontalAlignment="Stretch" Height="50" Margin="10, 10, 10, 10" MinWidth="400" Text="Status:"></TextBlock>
             </StackPanel>
             
-                <Grid MinWidth="500" MaxWidth="750" MaxHeight="1000">
+                <Grid MinWidth="500"  MaxHeight="1000">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="90*"></RowDefinition>
                         <RowDefinition Height="10*"></RowDefinition>
