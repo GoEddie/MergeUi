@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AgileSqlClub.MergeUI.Import
+namespace AgileSqlClub.MergeUi.Import
 {
     /// <summary>
     /// Interaction logic for ImportConfirm.xaml

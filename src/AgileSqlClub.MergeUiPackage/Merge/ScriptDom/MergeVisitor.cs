@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
-namespace AgileSqlClub.MergeUI.Merge.ScriptDom
+namespace AgileSqlClub.MergeUi.Merge.ScriptDom
 {
     public class MergeVisitor : TSqlFragmentVisitor
     {

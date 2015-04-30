@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Forms;
-using AgileSqlClub.MergeUI.DacServices;
-using AgileSqlClub.MergeUI.Merge;
+using AgileSqlClub.MergeUi.DacServices;
+using AgileSqlClub.MergeUi.Merge;
 using Microsoft.Internal.VisualStudio.PlatformUI;
 
-namespace AgileSqlClub.MergeUI.Metadata
+namespace AgileSqlClub.MergeUi.Metadata
 {
     public class VsProject
     {
@@ -94,7 +94,7 @@ namespace AgileSqlClub.MergeUI.Metadata
             if (!_mergeRepository.CanSave())
             {
                 MessageBox.Show(
-                    "A script file had an error, you need to fix that and reload before saving any updates to it - if that is a real pain, create a new post-deploy script and reload to use that", "MergeUI");
+                    "A script file had an error, you need to fix that and reload before saving any updates to it - if that is a real pain, create a new post-deploy script and reload to use that", "MergeUi");
                 return;
             }
 

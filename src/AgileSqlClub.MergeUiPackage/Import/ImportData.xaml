@@ -1,7 +1,7 @@
 ﻿<Controls:MetroWindow
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-         x:Class="AgileSqlClub.MergeUI.Import.ImportData"
+         x:Class="AgileSqlClub.MergeUi.Import.ImportData"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         Title="Import Data From a Database" Height="300" Width="500"
             BorderBrush="{DynamicResource AccentColorBrush}"

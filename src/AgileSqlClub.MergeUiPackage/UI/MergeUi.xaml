@@ -1,47 +1,39 @@
-﻿<UserControl x:Class="AgileSqlClub.MergeUI.UI.MergeUi"
+﻿<UserControl x:Class="AgileSqlClub.MergeUi.UI.MergeUi"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"               
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             Name="dsds">
+             Name="dsds" >
    
-    <ScrollViewer HorizontalScrollBarVisibility="Auto">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="15"></RowDefinition>
-        </Grid.RowDefinitions>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="70"></ColumnDefinition>
-            <ColumnDefinition Width="5"></ColumnDefinition>
-            <ColumnDefinition Width="250"></ColumnDefinition>
-            <ColumnDefinition Width="5"></ColumnDefinition>
-            <ColumnDefinition Width="250"></ColumnDefinition>
-            <ColumnDefinition Width="5"></ColumnDefinition>
-            <ColumnDefinition Width="250"></ColumnDefinition>
-            <ColumnDefinition Width="5"></ColumnDefinition>
-            <ColumnDefinition Width="250"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        
-        <Button Grid.Row="0">Populate</Button>
-        
-        <ComboBox Grid.Row="0" Grid.Column="2" MaxHeight="20">
-            
-        </ComboBox>
-        
-        <ComboBox Grid.Row="0" Grid.Column="4" MaxHeight="20">
-            <ComboBoxItem>sssss</ComboBoxItem>
-        </ComboBox>
-        
-        <ComboBox Grid.Row="0" Grid.Column="6" MaxHeight="20">
-            <ComboBoxItem>sssss</ComboBoxItem>
-        </ComboBox>
-        
-        <Button IsEnabled="False" Grid.Row="0" Grid.Column="8" HorizontalAlignment="Left">Import From Live Database</Button>
-        <DataGrid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="5" MinHeight="300"></DataGrid>
-        <Button x:Name="Save" Grid.Row="1" Grid.Column="9" VerticalAlignment="Bottom" HorizontalAlignment="Left" MinWidth="50">Save</Button>
-        <TextBlock x:Name="StatusLabel" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="9">Status:</TextBlock>
-  </Grid>
-        </ScrollViewer>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch">
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="15"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="250"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="250"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="250"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="250"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Row="0" x:Name="Populate" Click="Populate_OnClick">Populate</Button>
+
+            <ComboBox Grid.Row="0" Grid.Column="2" MaxHeight="20" x:Name="Projects" SelectionChanged="Projects_OnSelectionChanged"/>
+            <ComboBox Grid.Row="0" Grid.Column="4" MaxHeight="20" x:Name="Schemas" SelectionChanged="Schemas_OnSelectionChanged" />
+            <ComboBox Grid.Row="0" Grid.Column="6" MaxHeight="20" x:Name="Tables" SelectionChanged="Tables_OnSelectionChanged"/>
+
+            <Button IsEnabled="False" Grid.Row="1" Grid.Column="8" VerticalAlignment="Top" Padding="5,5,5,5" HorizontalAlignment="Left" x:Name="Import" Click="Import_OnClick">Import data from sql server database</Button>
+            <DataGrid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="5" MinHeight="100" x:Name="Table" ItemsSource="{Binding}"></DataGrid>
+            <Button x:Name="Save" Grid.Row="1" Grid.Column="9" VerticalAlignment="Bottom" HorizontalAlignment="Left" MinWidth="50" Padding="5,5,5,5" Click="Save_OnClick">Save</Button>
+            <TextBlock x:Name="StatusLabel" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="5" Background="AliceBlue">Status:</TextBlock>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

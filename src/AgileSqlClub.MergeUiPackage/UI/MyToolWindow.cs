@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using Microsoft.VisualStudio.Shell;
 
-namespace AgileSqlClub.MergeUI.UI
+namespace AgileSqlClub.MergeUi.UI
 {
     /// <summary>
     /// This class implements the tool window exposed by this package and hosts a user control.

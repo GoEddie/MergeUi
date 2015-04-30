@@ -5,12 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgileSqlClub.MergeUI.PackagePlumbing;
-using AgileSqlClub.MergeUI.DacServices;
-using AgileSqlClub.MergeUI.Metadata;
+using AgileSqlClub.MergeUi.PackagePlumbing;
+using AgileSqlClub.MergeUi.DacServices;
+using AgileSqlClub.MergeUi.Metadata;
 using System.Windows.Forms;
 
-namespace AgileSqlClub.MergeUI.Merge
+namespace AgileSqlClub.MergeUi.Merge
 {
     public enum DataTableSource
     {
@@ -67,7 +67,7 @@ namespace AgileSqlClub.MergeUI.Merge
             //if (!CanSave())
             //{
             //    MessageBox.Show(
-            //        "Errors in the post-dpeloy script, fix them before editing anything. You won't be able to save but can view the data we have read.\r\n\n\nFor further info, enable debugging logging and refresh", "MergeUI");
+            //        "Errors in the post-dpeloy script, fix them before editing anything. You won't be able to save but can view the data we have read.\r\n\n\nFor further info, enable debugging logging and refresh", "MergeUi");
             //}
         }
 
@@ -99,7 +99,7 @@ namespace AgileSqlClub.MergeUI.Merge
         {
             if (_doNotSave)
             {
-                MessageBox.Show(string.Format("Unable to save changes to: \"{0}\" as it contained errors, correct these, click refresh then try again", _path), "MergeUI");
+                MessageBox.Show(string.Format("Unable to save changes to: \"{0}\" as it contained errors, correct these, click refresh then try again", _path), "MergeUi");
                 return;
             }
 

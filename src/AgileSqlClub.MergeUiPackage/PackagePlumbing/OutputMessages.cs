@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell;
 
-namespace AgileSqlClub.MergeUI.PackagePlumbing
+namespace AgileSqlClub.MergeUi.PackagePlumbing
 {
     public static class OutputWindowMessage
     {
+        private static Guid _guidWindow;
+
+        static OutputWindowMessage()
+        {
+            _guidWindow = new Guid();
+        } 
+    
         public static void WriteMessage(string format, params object[] parameters)
         {
             WriteMessage(string.Format(format, parameters));
@@ -21,13 +28,12 @@ namespace AgileSqlClub.MergeUI.PackagePlumbing
             try
             {
                 var outputWindow = Package.GetGlobalService(typeof(SVsOutputWindow)) as IVsOutputWindow;
-
-                var guidGeneral = Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid;
+                
                 IVsOutputWindowPane pane;
-                var hr = outputWindow.CreatePane(guidGeneral, "General", 1, 0);
-                hr = outputWindow.GetPane(guidGeneral, out pane);
+                var hr = outputWindow.CreatePane(_guidWindow, "MergeUi", 1, 0);
+                hr = outputWindow.GetPane(_guidWindow, out pane);
                 pane.Activate();
-                pane.OutputString("MergeUI: " + message + "\r\n");
+                pane.OutputString(message + "\r\n");
                
                 pane.Activate();
 
@@ -46,14 +52,13 @@ namespace AgileSqlClub.MergeUI.PackagePlumbing
             {
                 var outputWindow = Package.GetGlobalService(typeof(SVsOutputWindow)) as IVsOutputWindow;
                 
-                var guidGeneral = Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid;
                 IVsOutputWindowPane pane;
-                var hr = outputWindow.CreatePane(guidGeneral, "General", 1, 0);
-                hr = outputWindow.GetPane(guidGeneral, out pane);
+                var hr = outputWindow.CreatePane(_guidWindow, "MergeUi", 1, 0);
+                hr = outputWindow.GetPane(_guidWindow, out pane);
                 pane.Activate();
-                //pane.OutputString("MergeUI: " + message + "\r\n");
-               var item = pane.OutputTaskItemString("MergeUI: " + string.Format(format, parameters) + "\r\n",
-                    VSTASKPRIORITY.TP_NORMAL, VSTASKCATEGORY.CAT_BUILDCOMPILE, "MergeUI", 0, path, (uint)line, "MergeUI: " + string.Format(format, parameters));
+                //pane.OutputString("MergeUi: " + message + "\r\n");
+               var item = pane.OutputTaskItemString( string.Format(format, parameters) + "\r\n",
+                    VSTASKPRIORITY.TP_NORMAL, VSTASKCATEGORY.CAT_BUILDCOMPILE, "MergeUi", 0, path, (uint)line, string.Format(format, parameters));
                 pane.Activate();
 
                 

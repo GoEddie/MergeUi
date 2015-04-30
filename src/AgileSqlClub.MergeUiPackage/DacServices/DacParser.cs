@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using AgileSqlClub.MergeUI.Extensions;
-using AgileSqlClub.MergeUI.Merge;
-using AgileSqlClub.MergeUI.Metadata;
+using AgileSqlClub.MergeUi.Extensions;
+using AgileSqlClub.MergeUi.Merge;
+using AgileSqlClub.MergeUi.Metadata;
 using Microsoft.SqlServer.Dac;
 using Microsoft.SqlServer.Dac.Model;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
-using Table = AgileSqlClub.MergeUI.Metadata.Table;
+using Table = AgileSqlClub.MergeUi.Metadata.Table;
 
-namespace AgileSqlClub.MergeUI.DacServices
+namespace AgileSqlClub.MergeUi.DacServices
 {
     public class DacParser
     {

@@ -4,18 +4,18 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using AgileSqlClub.MergeUI.DacServices;
-using AgileSqlClub.MergeUI.Merge;
-using AgileSqlClub.MergeUI.Metadata;
-using AgileSqlClub.MergeUI.PackagePlumbing;
-using AgileSqlClub.MergeUI.VSServices;
+using AgileSqlClub.MergeUi.DacServices;
+using AgileSqlClub.MergeUi.Merge;
+using AgileSqlClub.MergeUi.Metadata;
+using AgileSqlClub.MergeUi.PackagePlumbing;
+using AgileSqlClub.MergeUi.VSServices;
 using MessageBox = System.Windows.Forms.MessageBox;
 
-namespace AgileSqlClub.MergeUI.UI
+namespace AgileSqlClub.MergeUi.UI
 {
     public static class DebugLogging
     {
-        public static bool Enable;
+        public static bool Enable = true;
     }
 
     public partial class MyControl : UserControl, IStatus
@@ -71,7 +71,7 @@ namespace AgileSqlClub.MergeUI.UI
                     Cursor = Cursors.Wait;
                 });
 
-                _solution = new Solution(new ProjectEnumerator(), new DacParserBuilder(), this);
+                _solution = new SolutionParser(new ProjectEnumerator(), new DacParserBuilder(), this);
 
                 Dispatcher.Invoke(() =>
                 {
@@ -116,7 +116,7 @@ namespace AgileSqlClub.MergeUI.UI
                     string.IsNullOrEmpty(_currentProject.GetScript(ScriptType.PostDeploy)))
                 {
                     MessageBox.Show(
-                        "The project needs a post deploy script - add one anywhere in the project and refresh", "MergeUI");
+                        "The project needs a post deploy script - add one anywhere in the project and refresh", "MergeUi");
                     return;
                 }
 
@@ -223,7 +223,7 @@ namespace AgileSqlClub.MergeUI.UI
         {
             if (_currentTable == null)
             {
-                MessageBox.Show("Please choose a table in the drop down list", "MergeUI");
+                MessageBox.Show("Please choose a table in the drop down list", "MergeUi");
                 return;
             }
             try

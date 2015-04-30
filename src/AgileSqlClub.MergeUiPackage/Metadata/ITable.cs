@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using AgileSqlClub.MergeUI.Extensions;
-using AgileSqlClub.MergeUI.Merge;
+using AgileSqlClub.MergeUi.Extensions;
+using AgileSqlClub.MergeUi.Merge;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
-using AgileSqlClub.MergeUI.UI;
-using AgileSqlClub.MergeUI.PackagePlumbing;
+using AgileSqlClub.MergeUi.UI;
+using AgileSqlClub.MergeUi.PackagePlumbing;
 
-namespace AgileSqlClub.MergeUI.Metadata
+namespace AgileSqlClub.MergeUi.Metadata
 {
     public interface ITable
     {

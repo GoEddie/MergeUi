@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using AgileSqlClub.MergeUI.Extensions;
-using AgileSqlClub.MergeUI.Metadata;
+using AgileSqlClub.MergeUi.Extensions;
+using AgileSqlClub.MergeUi.Metadata;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
-namespace AgileSqlClub.MergeUI.Merge
+namespace AgileSqlClub.MergeUi.Merge
 {
     public class MergeStatementParser
     {

@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="78b76b0b-9e06-4f24-b20b-8a56ee968feb" Version="0.1.4" Language="en-US" Publisher="The Agile Sql Club (Ed Elliott)" />
-    <DisplayName>AgileSqlClub.MergeUIPackage</DisplayName>
+    <Identity Id="78b76b0b-9e06-4f24-b20b-8a56ee968feb" Version="0.1.9" Language="en-US" Publisher="The Agile Sql Club (Ed Elliott)" />
+    <DisplayName>AgileSqlClub.MergeUiPackage</DisplayName>
     <Description xml:space="preserve">This manages pre/post-deployment scripts in SSDT projects to create a set of merge statements which can be used to deploy static or reference data.</Description>
-    <MoreInfo>https://the.agilesql.club/Blog/Ed-Elliott/Introducing-MergeUI-Create-And-Edit-Merge-Statements</MoreInfo>
+    <MoreInfo>https://the.agilesql.club/Blog/Ed-Elliott/Introducing-MergeUi-Create-And-Edit-Merge-Statements</MoreInfo>
     <License>LICENSE.txt</License>
     <Icon>Resources\M.ico</Icon>
     <PreviewImage>Resources\M.png</PreviewImage>
   </Metadata>
   <Installation InstalledByMsi="false">
-    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[11.0,12.0]" />
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[11.0,13.0]" />
     <InstallationTarget Version="[11.0,13.0]" Id="Microsoft.VisualStudio.IntegratedShell" />
     <InstallationTarget Version="[11.0,13.0]" Id="Microsoft.VisualStudio.Premium" />
     <InstallationTarget Version="[11.0,13.0]" Id="Microsoft.VisualStudio.Ultimate" />

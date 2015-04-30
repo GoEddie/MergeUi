@@ -1,7 +1,7 @@
 using System.Text;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
-namespace AgileSqlClub.MergeUI.Extensions
+namespace AgileSqlClub.MergeUi.Extensions
 {
     public static class SchemaObjectNameExtensions
     {

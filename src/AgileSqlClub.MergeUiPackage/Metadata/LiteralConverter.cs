@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgileSqlClub.MergeUI.Extensions;
+using AgileSqlClub.MergeUi.Extensions;
 using Microsoft.SqlServer.Dac.Model;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
-namespace AgileSqlClub.MergeUI.Metadata
+namespace AgileSqlClub.MergeUi.Metadata
 {
     public class LiteralConverter
     {

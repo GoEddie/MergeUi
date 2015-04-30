@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgileSqlClub.MergeUI.Extensions;
-using AgileSqlClub.MergeUI.PackagePlumbing;
+using AgileSqlClub.MergeUi.Extensions;
+using AgileSqlClub.MergeUi.PackagePlumbing;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
-namespace AgileSqlClub.MergeUI.Merge
+namespace AgileSqlClub.MergeUi.Merge
 {
     public class MergeStatementBuilder
     {

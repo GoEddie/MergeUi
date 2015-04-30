@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgileSqlClub.MergeUI.DacServices;
-using AgileSqlClub.MergeUI.Metadata;
-using AgileSqlClub.MergeUI.UI;
-using AgileSqlClub.MergeUI.VSServices;
+using AgileSqlClub.MergeUi.DacServices;
+using AgileSqlClub.MergeUi.Metadata;
+using AgileSqlClub.MergeUi.UI;
+using AgileSqlClub.MergeUi.VSServices;
 using Moq;
 using NUnit.Framework;
 
-namespace AgileSqlClub.MergeUI.UnitTests
+namespace AgileSqlClub.MergeUi.UnitTests
 {
     [TestFixture]
     class SolutionTests
@@ -42,7 +42,7 @@ namespace AgileSqlClub.MergeUI.UnitTests
             parserBuilder.Setup(p => p.Build(path)).Returns(parser.Object);
 
 
-            var solution = new Solution(enumerator.Object, parserBuilder.Object, new DummyStatus());
+            var solution = new SolutionParser(enumerator.Object, parserBuilder.Object, new DummyStatus());
             var actualProject = solution.GetProject(projectName);
             Assert.AreEqual(projectName, actualProject.GetName());
             Assert.AreEqual(1, solution.GetProjects().Count);
@@ -74,7 +74,7 @@ namespace AgileSqlClub.MergeUI.UnitTests
             var parserBuilder = new Mock<DacParserBuilder>();
             parserBuilder.Setup(p => p.Build(path)).Returns(parser.Object);
             
-            var solution = new Solution(enumerator.Object, parserBuilder.Object, new DummyStatus());
+            var solution = new SolutionParser(enumerator.Object, parserBuilder.Object, new DummyStatus());
             var schema = solution.GetProject("abcdef").GetSchema("dbo");
             Assert.AreEqual(1, schema.GetTables().Count);
             
@@ -129,7 +129,7 @@ namespace AgileSqlClub.MergeUI.UnitTests
             var parserBuilder = new Mock<DacParserBuilder>();
             parserBuilder.Setup(p => p.Build(path)).Returns(parser.Object);
 
-            var solution = new Solution(enumerator.Object, parserBuilder.Object, new DummyStatus());
+            var solution = new SolutionParser(enumerator.Object, parserBuilder.Object, new DummyStatus());
             var actualProject = solution.GetProject(projectName);
             Assert.AreEqual(2, actualProject.GetSchemas().Count);
         }
@@ -163,7 +163,7 @@ namespace AgileSqlClub.MergeUI.UnitTests
             var parserBuilder = new Mock<DacParserBuilder>();
             parserBuilder.Setup(p => p.Build(path)).Returns(parser.Object);
 
-            var solution = new Solution(enumerator.Object, parserBuilder.Object, new DummyStatus());
+            var solution = new SolutionParser(enumerator.Object, parserBuilder.Object, new DummyStatus());
 
             var table = solution.GetTable("abcdef", "one", "table2");
             Assert.AreEqual("one", table.SchemaName);

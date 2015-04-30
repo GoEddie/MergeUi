@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Windows;
-using AgileSqlClub.MergeUI.PackagePlumbing;
-using AgileSqlClub.MergeUI.Merge.ScriptDom;
-using AgileSqlClub.MergeUI.Metadata;
+using AgileSqlClub.MergeUi.PackagePlumbing;
+using AgileSqlClub.MergeUi.Merge.ScriptDom;
+using AgileSqlClub.MergeUi.Metadata;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
-using AgileSqlClub.MergeUI.UI;
+using AgileSqlClub.MergeUi.UI;
 
-namespace AgileSqlClub.MergeUI.Merge
+namespace AgileSqlClub.MergeUi.Merge
 {
     class ScriptParser
     {

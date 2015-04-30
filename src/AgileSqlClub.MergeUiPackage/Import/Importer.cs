@@ -4,11 +4,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgileSqlClub.MergeUI.Import;
-using AgileSqlClub.MergeUI.Merge;
-using AgileSqlClub.MergeUI.Metadata;
+using AgileSqlClub.MergeUi.Import;
+using AgileSqlClub.MergeUi.Merge;
+using AgileSqlClub.MergeUi.Metadata;
 
-namespace AgileSqlClub.MergeUI
+namespace AgileSqlClub.MergeUi
 {
     public class Importer
     {

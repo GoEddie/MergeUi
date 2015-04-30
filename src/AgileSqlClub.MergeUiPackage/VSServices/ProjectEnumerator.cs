@@ -6,7 +6,7 @@ using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace AgileSqlClub.MergeUI.VSServices
+namespace AgileSqlClub.MergeUi.VSServices
 {
     public class ProjectEnumerator
     {
@@ -56,8 +56,8 @@ namespace AgileSqlClub.MergeUI.VSServices
             }
             catch (Exception e)
             {
-                MessageBox.Show(string.Format("MergeUI was unable to process the dacpacs, error: {0}", e.Message),
-                    "MergeUI");
+                MessageBox.Show(string.Format("MergeUi was unable to process the dacpacs, error: {0}", e.Message),
+                    "MergeUi");
             }
 
             return descriptors;

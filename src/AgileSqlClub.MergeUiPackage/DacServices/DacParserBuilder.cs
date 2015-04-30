@@ -1,4 +1,4 @@
-﻿namespace AgileSqlClub.MergeUI.DacServices
+﻿namespace AgileSqlClub.MergeUi.DacServices
 {
     public class DacParserBuilder
     {

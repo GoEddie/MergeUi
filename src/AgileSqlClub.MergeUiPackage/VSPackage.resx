@@ -129,7 +129,7 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="110" xml:space="preserve">
-    <value>AgileSqlClub.MergeUIPackage</value>
+    <value>AgileSqlClub.MergeUiPackage</value>
   </data>
   <data name="112" xml:space="preserve">
     <value>This manages pre/post-deployment scripts in SSDT projects to create a set of merge statements which can be used to deploy static or reference data.</value>

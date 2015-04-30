@@ -2,18 +2,27 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
-namespace AgileSqlClub.MergeUI.Merge
+namespace AgileSqlClub.MergeUi.Merge
 {
     public static class MergeStatementDesriptorToScriptExtensions
     {
         public static string GetScript(this MergeStatement source)
         {
             var script = "";
-            var generator = new  Sql120ScriptGenerator(new SqlScriptGeneratorOptions() { IncludeSemicolons = true });
+            var generator =
+                new Sql120ScriptGenerator(new SqlScriptGeneratorOptions
+                {
+                    IncludeSemicolons = true,
+                    AlignClauseBodies = true,
+                    AlignColumnDefinitionFields = true,
+                    AsKeywordOnOwnLine = true,
+                    MultilineInsertSourcesList = true,
+                    MultilineInsertTargetsList = true,
+                    MultilineSelectElementsList = true,
+                    NewLineBeforeOpenParenthesisInMultilineList = true
+                });
             generator.GenerateScript(source, out script);
 
             if (!script.EndsWith(";"))
@@ -23,8 +32,7 @@ namespace AgileSqlClub.MergeUI.Merge
             return script;
         }
 
-
-        public static void SetInlineTableData(this MergeStatement source, DataTable data, List<ColumnDescriptor> columns )
+        public static void SetInlineTableData(this MergeStatement source, DataTable data, List<ColumnDescriptor> columns)
         {
             var table = source.MergeSpecification.TableReference as InlineDerivedTable;
 
@@ -34,9 +42,9 @@ namespace AgileSqlClub.MergeUI.Merge
             table.RowValues.Clear();
 
             var columnsToRemove = new List<DataColumn>();
-            for (int i = 0; i < data.Columns.Count; i++)
+            for (var i = 0; i < data.Columns.Count; i++)
             {
-                if(columns.FirstOrDefault(p=>p.Name.Value == data.Columns[i].ColumnName) == null)
+                if (columns.FirstOrDefault(p => p.Name.Value == data.Columns[i].ColumnName) == null)
                     columnsToRemove.Add(data.Columns[i]);
             }
 
@@ -48,7 +56,7 @@ namespace AgileSqlClub.MergeUI.Merge
             foreach (DataRow row in data.Rows)
             {
                 var rowValue = new RowValue();
-                for (int i = 0; i < row.ItemArray.Length; i++)
+                for (var i = 0; i < row.ItemArray.Length; i++)
                 {
                     if (row.ItemArray[i] == DBNull.Value)
                     {
@@ -64,33 +72,34 @@ namespace AgileSqlClub.MergeUI.Merge
             }
         }
 
-
         private static ScalarExpression GetColumnValue(string value, LiteralType type)
         {
             switch (type)
             {
                 case LiteralType.Integer:
-                    return new IntegerLiteral() { Value = value };
+                    return new IntegerLiteral {Value = value};
                 case LiteralType.Real:
-                    return new RealLiteral() { Value = value };
+                    return new RealLiteral {Value = value};
                 case LiteralType.Money:
-                    return new MoneyLiteral() { Value = value };
+                    return new MoneyLiteral {Value = value};
                 case LiteralType.Binary:
-                    return new BinaryLiteral() { Value = value };
+                    return new BinaryLiteral {Value = value};
                 case LiteralType.String:
-                    return new StringLiteral() { Value = value.Replace("'", "''") };
+                    return new StringLiteral {Value = value.Replace("'", "''")};
                 case LiteralType.Null:
-                    return new NullLiteral() { Value = value };
+                    return new NullLiteral {Value = value};
                 case LiteralType.Default:
-                    return new DefaultLiteral() { Value = value };
+                    return new DefaultLiteral {Value = value};
                 case LiteralType.Max:
-                    return new MaxLiteral() { Value = value };
+                    return new MaxLiteral {Value = value};
                 case LiteralType.Odbc:
-                    return new OdbcLiteral() { Value = value };
+                    return new OdbcLiteral {Value = value};
                 case LiteralType.Identifier:
-                    return new IdentifierLiteral() { Value = value }; ;
+                    return new IdentifierLiteral {Value = value};
+                    ;
                 case LiteralType.Numeric:
-                    return new NumericLiteral() { Value = value }; ;
+                    return new NumericLiteral {Value = value};
+                    ;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

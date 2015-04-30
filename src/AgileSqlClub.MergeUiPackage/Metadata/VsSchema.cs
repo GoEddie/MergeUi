@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgileSqlClub.MergeUI.Metadata
+namespace AgileSqlClub.MergeUi.Metadata
 {
     internal class VsSchema : ISchema
     {
