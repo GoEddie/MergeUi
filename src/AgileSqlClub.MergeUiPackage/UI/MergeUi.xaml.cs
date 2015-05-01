@@ -113,6 +113,9 @@ namespace AgileSqlClub.MergeUi.UI
         {
             ClearProject();
 
+            if (Projects.SelectedValue == null)
+                return;
+
             var projectName = Projects.SelectedValue.ToString();
 
             if (String.IsNullOrEmpty(projectName))
