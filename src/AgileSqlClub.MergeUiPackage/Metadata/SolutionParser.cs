@@ -30,7 +30,7 @@ namespace AgileSqlClub.MergeUi.Metadata
 
             foreach (var project in projects)
             {
-                statusDisplay.SetStatus(string.Format("Enumerating project {0} or {1}", count++, projects.Count));
+                statusDisplay.SetStatus(string.Format("Enumerating project {0} of {1} - project: {2}", count++, projects.Count, project.Name));
 
                 if (!File.Exists(project.DacPath))
                 {

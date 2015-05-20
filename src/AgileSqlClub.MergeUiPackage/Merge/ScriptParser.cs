@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Text;
 using System.Windows;
 using AgileSqlClub.MergeUi.PackagePlumbing;
 using AgileSqlClub.MergeUi.Merge.ScriptDom;
@@ -28,7 +29,9 @@ namespace AgileSqlClub.MergeUi.Merge
         {
             var tables = new List<ITable>();
             
-            using (var reader = new StreamReader(_path))
+            
+
+            using (var reader = GetScriptReader())
             {
                 var parser = new TSql120Parser(true);
 
@@ -76,6 +79,49 @@ namespace AgileSqlClub.MergeUi.Merge
             }
 
             return tables;
+        }
+
+        private StreamReader GetScriptReader()
+        {
+
+            var tempPath = _path + ".tmp";
+            try
+            {
+                if (File.Exists(tempPath))
+                    File.Delete(tempPath);
+            }
+            catch (Exception e)
+            {
+                OutputWindowMessage.WriteMessage("Unable to delete temporary file path: \"{0}\" - error message: \"{1}\" ", tempPath, e.Message);
+            }
+            
+            bool haveSkipped = false;
+            using (var reader = new StreamReader(_path))
+            using (var writer = new StreamWriter(tempPath))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    if (!line.Trim().StartsWith(":r", StringComparison.OrdinalIgnoreCase))
+                    {
+                        writer.WriteLine(line);
+                    }
+                    else
+                    {
+                        if(line.Length > 2)
+                            writer.WriteLine("--{0}", line.Substring(2));
+
+                        haveSkipped = true;
+                    }
+                }
+                
+            }
+
+            if(haveSkipped)
+                return new StreamReader(tempPath);
+
+            return new StreamReader(_path);
+
         }
 
         private void DumpMergeText(MergeStatement merge)
