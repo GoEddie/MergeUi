@@ -8,7 +8,7 @@ Sql Server Data Tools (SSDT) is a way to write, refactor and deploy Sql Server d
 - Use this to create, edit and remove static data from merge statements
 
 ### Version
-3.0.2
+0.1.9
 
 ### Installation
 
@@ -33,5 +33,5 @@ https://the.agilesql.club/Blog/Ed-Elliott/Introducing-MergeUi-Create-And-Edit-Me
 
 This one is more recent and includes the updated ui:
 
-https://the.agilesql.club/Blog/Ed-Elliott/MergeUi-0.9.1
+https://the.agilesql.club/Blogs/Ed-Elliott/MergeUi-0-1-9-4-Released
 
