@@ -1,3 +1,6 @@
+
+#THIS HAS NOW BEEN MOVED INTO THE SSDT-DevPack (https://the.agilesql.club/Projects/SSDT-Dev-Pack) Still and always will be OSS :)
+
 # MergeUi
 
 Sql Server Data Tools (SSDT) is a way to write, refactor and deploy Sql Server database code. When you have a Sql Server database you sometimes need to deploy data such as lookup or reference data and doing that can be a pain. This is a package for Visual Studio that gives a UI to automatically create merge statements for any table in your project and also lets you import the data from an existing table into the project.
